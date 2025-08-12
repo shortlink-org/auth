@@ -1,5 +1,8 @@
 .matrix_build_helm:
   parallel:
     matrix:
+      - HELM_CHART_NAME: auth
+        HELM_CHART_PATH: ops/Helm/$HELM_CHART_NAME
+
       - HELM_CHART_NAME: auth-ui
         HELM_CHART_PATH: ops/Helm/$HELM_CHART_NAME
