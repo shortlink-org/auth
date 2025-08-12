@@ -6,8 +6,7 @@ interface Props {
   attributes: UiNodeAnchorAttributes
 }
 
-// @ts-ignore
-export function NodeAnchor({ node, attributes }: Props) {
+export function NodeAnchor({ attributes }: Props) {
   return (
     <Button
       onClick={(e) => {

@@ -10,5 +10,5 @@
         REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/auth/ui
         DOCKERFILE_PATH: ops/dockerfile/auth-ui.Dockerfile
         DOCKERFILE_ARGS: >-
-          --build-arg API_URI=https://shortlink.best/auth/login
+          --build-arg API_URI=${API_URI}
           --build-arg NEXT_PUBLIC_API_URI=${NEXT_PUBLIC_API_URI}

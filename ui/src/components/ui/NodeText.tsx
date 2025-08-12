@@ -10,7 +10,7 @@ function Content({ attributes }: Props) {
   switch (attributes.text.id) {
     case 1050015: {
       // This text node contains lookup secrets. Let's make them a bit more beautiful!
-      const secrets = (attributes.text.context as any).secrets.map((text: UiText, k: number) => (
+      const secrets = (attributes.text.context as { secrets: UiText[] }).secrets.map((text: UiText, k: number) => (
         <div key={k} data-testid={`node/text/${attributes.id}/lookup_secret`} className="col-xs-3">
           {/* Used lookup_secret has ID 1050014 */}
           <code>{text.id === 1050014 ? 'Used' : text.text}</code>

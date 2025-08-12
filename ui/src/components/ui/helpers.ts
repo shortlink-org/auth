@@ -8,7 +8,7 @@ export type FormDispatcher = (e: MouseEvent | React.FormEvent) => Promise<void>
 export interface NodeInputProps {
   node: UiNode
   attributes: UiNodeInputAttributes
-  value: any
+  value: unknown
   disabled: boolean
   dispatchSubmit: FormDispatcher
   setValue: ValueSetter

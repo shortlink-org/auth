@@ -6,7 +6,7 @@ import { AxiosError } from 'axios'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Flow } from '@/components/ui/Flow'
 import { handleFlowError } from '@/pkg/errors'
@@ -32,14 +32,15 @@ import ory from '@/pkg/sdk'
 // ]}
 // />
 
-const Page: NextPage = () => {
-  const [flow, setFlow] = useState<RecoveryFlow>()
+const ForgotContent: React.FC = () => {
+  const [flow, setFlow] = useState<RecoveryFlow | undefined>(undefined)
 
-  // Get ?flow=... from the URL
   const router = useRouter()
   const searchParams = useSearchParams()
-  const flowId = searchParams.get('flow')
-  const returnTo = searchParams.get('return_to')
+
+  // Derive params as stable strings
+  const flowId = useMemo(() => searchParams.get('flow') ?? null, [searchParams])
+  const returnTo = useMemo(() => searchParams.get('return_to') ?? null, [searchParams])
 
   useEffect(() => {
     // If the router is not ready yet, or we already have a flow, do nothing.
@@ -71,7 +72,7 @@ const Page: NextPage = () => {
         // If the previous handler did not catch the error it's most likely a form validation error
         if (err.response?.status === 400) {
           // Yup, it is!
-          // @ts-ignore
+          // @ts-expect-error - response.data type is not properly typed in axios
           setFlow(err.response?.data)
           return
         }
@@ -100,7 +101,7 @@ const Page: NextPage = () => {
         switch (err.response?.status) {
           case 400:
             // Status code 400 implies the form validation had an error
-            // @ts-ignore
+            // @ts-expect-error - response.data type is not properly typed in axios
             setFlow(err.response?.data)
             return
           default:
@@ -155,7 +156,7 @@ const Page: NextPage = () => {
 
                 <Link href="/auth/registration" legacyBehavior>
                   <p className="cursor-pointer no-underline hover:underline mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                    Don't have an account? Sign Up
+                    Don&apos;t have an account? Sign Up
                   </p>
                 </Link>
               </div>
@@ -166,5 +167,11 @@ const Page: NextPage = () => {
     </>
   )
 }
+
+const Page: NextPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ForgotContent />
+  </Suspense>
+)
 
 export default Page

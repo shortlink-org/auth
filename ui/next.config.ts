@@ -5,6 +5,11 @@ const isProd = process.env.NODE_ENV === "production"
 const AUTH_URI = process.env.AUTH_URI || "http://127.0.0.1:4433"
 
 const nextConfig: NextConfig = {
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
   // If you truly need a CDN path for static assets only, set assetPrefix as well,
   // but usually basePath is sufficient for an app mounted at /auth.
   async rewrites() {

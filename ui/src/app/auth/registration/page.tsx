@@ -1,150 +1,126 @@
 'use client'
 
-// @ts-nocheck
-import Grid from '@mui/material/Grid'
 import { RegistrationFlow, UpdateRegistrationFlowBody } from '@ory/client'
-import { AxiosError } from 'axios'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Flow } from '@/components/ui/Flow'
 import { handleFlowError } from '@/pkg/errors'
 import ory from '@/pkg/sdk'
 
-// <BreadcrumbJsonLd
-// itemListElements={[
-//     {
-//       position: 1,
-//       name: 'Login page',
-//       item: 'https://shortlink.best/next/auth/login',
-//     },
-// {
-//   position: 2,
-//     name: 'Forgot Password',
-//   item: 'https://shortlink.best/next/auth/forgot',
-// },
-// {
-//   position: 3,
-//     name: 'Registration page',
-//   item: 'https://shortlink.best/next/auth/registration',
-// },
-// ]}
-// />
-
 // Renders the registration page
-const SignUp: NextPage = () => {
-  // The "flow" represents a registration process and contains
-  // information about the form we need to render (e.g. username + password)
-  const [flow, setFlow] = useState<RegistrationFlow>()
+const SignUpContent: React.FC = () => {
+  const [flow, setFlow] = useState<RegistrationFlow | undefined>(undefined)
 
-  // Get ?flow=... from the URL
   const router = useRouter()
   const searchParams = useSearchParams()
-  const flowId = searchParams.get('flow')
-  const returnTo = searchParams.get('return_to')
 
-  // In this effect, we either initiate a new registration flow, or we fetch an existing registration flow.
+  // Derive params as stable strings
+  const flowId = useMemo(() => searchParams.get('flow') ?? null, [searchParams])
+  const returnTo = useMemo(() => searchParams.get('return_to') ?? null, [searchParams])
+
+  // Init/fetch the registration flow
   useEffect(() => {
-    // If the router is not ready yet, or we already have a flow, do nothing.
-    if (flow) {
-      return
-    }
+    let cancelled = false
 
-    // If ?flow=.. was in the URL, we fetch it
-    if (flowId) {
-      ory
-        .getRegistrationFlow({ id: String(flowId) })
-        .then(({ data }) => {
-          // We received the flow - let's use its data and render the form!
-          setFlow(data)
+    const init = async () => {
+      try {
+        if (flow) return
+
+        if (flowId) {
+          const { data } = await ory.getRegistrationFlow({ id: flowId })
+          if (!cancelled) setFlow(data)
+          return
+        }
+
+        const { data } = await ory.createBrowserRegistrationFlow({
+          returnTo: returnTo ?? undefined,
         })
-        .catch(handleFlowError(router, 'registration', setFlow))
-      return
+        if (!cancelled) setFlow(data)
+      } catch (err: unknown) {
+        // Delegate Ory-specific navigation/refresh handling
+        if (err && typeof err === 'object' && 'response' in err) {
+          handleFlowError(router, 'registration', setFlow)(err as any)
+        }
+      }
     }
 
-    // Otherwise we initialize it
-    ory
-      .createBrowserRegistrationFlow({
-        returnTo: returnTo ? String(returnTo) : undefined,
-      })
-      .then(({ data }) => {
-        console.info('Created a new registration flow: ', data)
+    void init()
+    return () => {
+      cancelled = true
+    }
+  }, [flow, flowId, returnTo, router])
 
-        setFlow(data)
-      })
-      .catch(handleFlowError(router, 'registration', setFlow))
-  }, [flowId, router, returnTo, flow])
+  const onSubmit = useCallback(
+    async (values: UpdateRegistrationFlowBody) => {
+      if (!flow?.id) return
 
-  const onSubmit = async (values: UpdateRegistrationFlowBody) => {
-    router
-      // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
-      // his data when she/he reloads the page.
-      .push(`/auth/registration?flow=${flow?.id}`)
+      // Keep flow id in URL so reloads don’t lose state
+      router.push(`/auth/registration?flow=${flow.id}`)
 
-    console.info('updateRegistrationFlow values', values)
-    ory
-      .updateRegistrationFlow({
-        flow: String(flow?.id),
-        updateRegistrationFlowBody: values,
-      })
-      .then(async ({ data }) => {
-        // If we ended up here, it means we are successfully signed up!
-        console.info('updateRegistrationFlow data', data)
+      try {
+        const { data } = await ory.updateRegistrationFlow({
+          flow: flow.id,
+          updateRegistrationFlowBody: values,
+        })
 
-        // Continue_with is a list of actions that the user might need to take before the registration is complete.
-        // It could, for example, contain a link to the verification form.
-        if (data.continue_with) {
+        // Handle next steps if present (e.g., verification)
+        if (data.continue_with && data.continue_with.length > 0) {
           for (const item of data.continue_with) {
-            switch (item.action) {
-              case 'show_verification_ui':
-                router.push(`/auth/verification?flow=${item.flow.id}`)
-
-                return
-              default:
-              // Otherwise, we nothitng - the error will be handled by the Flow component
+            if (item.action === 'show_verification_ui') {
+              router.push(`/auth/verification?flow=${item.flow.id}`)
+              return
             }
           }
         }
 
-        // If continue_with did not contain anything, we can just return to the home page.
-        router.push(flow?.return_to || '/')
-      })
-      .catch(handleFlowError(router, 'registration', setFlow))
-      .catch((err: AxiosError) => {
-        // If the previous handler did not catch the error it's most likely a form validation error
-        if (err.response?.status === 400) {
-          // Yup, it is!
-          // @ts-ignore
-          setFlow(err.response?.data)
-          return
+        // Otherwise go home or return_to
+        router.push(flow.return_to || '/')
+      } catch (err: unknown) {
+        // handleFlowError will do redirects/refresh for expired/invalid flows
+        if (err && typeof err === 'object' && 'response' in err) {
+          handleFlowError(router, 'registration', setFlow)(err as any)
         }
 
-        return Promise.reject(err)
-      })
-  }
+        // If still not handled, it might be a validation error (400) with flow payload
+        if (typeof err === 'object' && err !== null) {
+          const anyErr = err as { response?: { status?: number; data?: unknown } }
+          if (anyErr.response?.status === 400 && anyErr.response.data) {
+            // Ory returns the updated flow containing field errors
+            setFlow(anyErr.response.data as RegistrationFlow)
+            return
+          }
+        }
+
+        // Re-throw for any global error boundary (optional)
+        // throw err
+      }
+    },
+    [flow, router]
+  )
+
+  if (!flow) return null
 
   return (
     <>
-      {/*<NextSeo title="Registration" description="Registration a new account" />*/}
-
       <div className="flex h-full p-4 rotate">
-        <div className="sm:max-w-xl md:max-w-3xl w-full m-auto">
-          <div className="flex items-stretch bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden border-t-4 border-indigo-500 sm:border-0">
+        <div className="w-full m-auto sm:max-w-xl md:max-w-3xl">
+          <div className="flex items-stretch overflow-hidden rounded-lg bg-white shadow-lg dark:bg-gray-800 border-t-4 border-indigo-500 sm:border-0">
             <div
-              className="flex hidden overflow-hidden relative sm:block w-4/12 md:w-5/12 bg-gray-600 text-gray-300 py-4 bg-cover bg-center"
+              className="relative hidden w-4/12 bg-gray-600 py-4 text-gray-300 sm:block md:w-5/12 bg-cover bg-center"
               style={{
                 backgroundImage:
                   "url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80')",
               }}
             >
-              <div className="flex-1 absolute bottom-0 text-white p-10">
-                <h3 className="text-4xl font-bold inline-block">Register</h3>
-                <p className="text-gray-500 whitespace-no-wrap">Signup for an Account</p>
+              <div className="absolute bottom-0 flex-1 p-10 text-white">
+                <h3 className="inline-block text-4xl font-bold">Register</h3>
+                <p className="whitespace-nowrap text-gray-500">Signup for an Account</p>
               </div>
               <svg
-                className="absolute animate h-full w-4/12 sm:w-2/12 right-0 inset-y-0 fill-current text-white"
+                className="absolute inset-y-0 right-0 h-full w-4/12 fill-current text-white sm:w-2/12"
                 viewBox="0 0 100 100"
                 xmlns="http://www.w3.org/2000/svg"
                 preserveAspectRatio="none"
@@ -152,22 +128,21 @@ const SignUp: NextPage = () => {
                 <polygon points="0,0 100,100 100,0" />
               </svg>
             </div>
+
             <div className="flex-1 p-6 sm:p-10 sm:py-12">
-              <h3 className="text-xl text-gray-700 font-bold mb-6">
-                Register <span className="text-gray-400 font-light">for an account</span>
+              <h3 className="mb-6 text-xl font-bold text-gray-700">
+                Register <span className="font-light text-gray-400">for an account</span>
               </h3>
 
-              <Flow onSubmit={onSubmit} flow={flow} />
+              <Flow<UpdateRegistrationFlowBody> onSubmit={onSubmit} flow={flow} />
 
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link href="/auth/login">
-                    <p className="cursor-pointer no-underline hover:underline mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                      Already have an account? Log in
-                    </p>
-                  </Link>
-                </Grid>
-              </Grid>
+              <div className="flex justify-end">
+                <Link href="/auth/login" className="no-underline">
+                  <p className="mt-4 cursor-pointer text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:underline">
+                    Already have an account? Log in
+                  </p>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -175,5 +150,11 @@ const SignUp: NextPage = () => {
     </>
   )
 }
+
+const SignUp: NextPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <SignUpContent />
+  </Suspense>
+)
 
 export default SignUp

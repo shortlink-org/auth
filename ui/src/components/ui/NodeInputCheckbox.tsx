@@ -3,7 +3,7 @@ import React, { ChangeEvent } from 'react'
 
 import { NodeInputProps } from './helpers'
 
-export function NodeInputCheckbox<T>({ node, attributes, setValue, disabled }: NodeInputProps) {
+export function NodeInputCheckbox({ node, attributes, setValue, disabled }: NodeInputProps) {
   const errorState = node.messages.find(({ type }) => type === 'error') ? 'border-red-500' : ''
 
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +21,6 @@ export function NodeInputCheckbox<T>({ node, attributes, setValue, disabled }: N
         className="form-checkbox h-5 w-5 text-blue-600"
       />
       <span className="ml-2 text-gray-700">
-        {/* @ts-ignore */}
         {getNodeLabel(node)}
       </span>
       <p className="text-red-500">{node.messages.map(({ text }) => text).join('\n')}</p>

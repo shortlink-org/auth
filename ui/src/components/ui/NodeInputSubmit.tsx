@@ -3,8 +3,7 @@ import { getNodeLabel } from '@ory/integrations/ui'
 
 import { NodeInputProps } from './helpers'
 
-// @ts-ignore
-export function NodeInputSubmit<T>({ node, attributes, setValue, disabled, dispatchSubmit }: NodeInputProps) {
+export function NodeInputSubmit({ node, attributes, disabled }: NodeInputProps) {
   return (
     <Button
       name={attributes.name}
@@ -15,10 +14,7 @@ export function NodeInputSubmit<T>({ node, attributes, setValue, disabled, dispa
       value={attributes.value || ''}
       disabled={attributes.disabled || disabled}
     >
-      {
-        // @ts-ignore
-        getNodeLabel(node)
-      }
+      {getNodeLabel(node)}
     </Button>
   )
 }

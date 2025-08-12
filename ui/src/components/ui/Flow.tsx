@@ -13,193 +13,156 @@ import {
   UiNode,
 } from '@ory/client'
 import { getNodeId, isUiNodeInputAttributes } from '@ory/integrations/ui'
-import { Component, FormEvent } from 'react'
+import React, { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { Messages } from './Messages'
 import { Node } from './Node'
 
 export type Values = Partial<
-  UpdateLoginFlowBody | UpdateRegistrationFlowBody | UpdateRecoveryFlowBody | UpdateSettingsFlowBody | UpdateVerificationFlowBody
+  | UpdateLoginFlowBody
+  | UpdateRegistrationFlowBody
+  | UpdateRecoveryFlowBody
+  | UpdateSettingsFlowBody
+  | UpdateVerificationFlowBody
 >
 
-export type Methods = 'oidc' | 'password' | 'profile' | 'totp' | 'webauthn' | 'passkey' | 'link' | 'lookup_secret'
+export type Methods =
+  | 'oidc'
+  | 'password'
+  | 'profile'
+  | 'totp'
+  | 'webauthn'
+  | 'passkey'
+  | 'link'
+  | 'lookup_secret'
 
-export type Props<T> = {
-  // The flow
+export type Props<T extends Values> = {
   flow?: LoginFlow | RegistrationFlow | SettingsFlow | VerificationFlow | RecoveryFlow
-  // Only show certain nodes. We will always render the default nodes for CSRF tokens.
   only?: Methods
-  // Is triggered on submission
   onSubmit: (values: T) => Promise<void> | void
-  // Do not show the global messages. Useful when rendering them elsewhere.
   hideGlobalMessages?: boolean
 }
 
-function emptyState<T>() {
-  return {} as T
+function buildInitialValues<T extends Values>(nodes: UiNode[]): T {
+  const result: Record<string, unknown> = {}
+  nodes.forEach((node) => {
+    if (!isUiNodeInputAttributes(node.attributes)) return
+    const { type, name, value } = node.attributes
+    if (type === 'button' || type === 'submit') return
+    result[name] = value
+  })
+  return result as T
 }
 
-type State<T> = {
-  values: T
-  isLoading: boolean
-}
+export function Flow<T extends Values>({ flow, only, onSubmit, hideGlobalMessages }: Props<T>) {
+  const formRef = useRef<HTMLFormElement>(null)
+  const [values, setValues] = useState<T>({} as T)
+  const [isLoading, setIsLoading] = useState(false)
+  const [submitter, setSubmitter] = useState<{ name: string; value: string } | null>(null)
 
-export class Flow<T extends Values> extends Component<Props<T>, State<T>> {
-  constructor(props: Props<T>) {
-    super(props)
-    this.state = {
-      values: emptyState(),
-      isLoading: false,
-    }
-  }
+  const nodes = useMemo<UiNode[]>(() => {
+    if (!flow) return []
+    return flow.ui.nodes.filter(({ group }) => (only ? group === 'default' || group === only : true))
+  }, [flow, only])
 
-  componentDidMount() {
-    this.initializeValues(this.filterNodes())
-  }
+  // (Re)initialize values when flow or filter changes
+  useEffect(() => {
+    setValues(buildInitialValues<T>(nodes))
+  }, [nodes])
 
-  componentDidUpdate(prevProps: Props<T>) {
-    if (prevProps.flow !== this.props.flow) {
-      // Flow has changed, reload the values!
-      this.initializeValues(this.filterNodes())
-    }
-  }
+  // Capture which submit control was clicked (works for <button> and <input type="submit">)
+  const handleClickCapture: React.MouseEventHandler<HTMLFormElement> = (e) => {
+    const target = e.target as HTMLElement | null
+    if (!target) return
 
-  initializeValues = (nodes: Array<UiNode> = []) => {
-    // Compute the values
-    const values = emptyState<T>()
-    nodes.forEach((node) => {
-      // This only makes sense for text nodes
-      // @ts-ignore
-      if (isUiNodeInputAttributes(node.attributes)) {
-        if (node.attributes.type === 'button' || node.attributes.type === 'submit') {
-          // In order to mimic real HTML forms, we need to skip setting the value
-          // for buttons as the button value will (in normal HTML forms) only trigger
-          // if the user clicks it.
-          return
-        }
-        values[node.attributes.name as keyof Values] = node.attributes.value
-      }
-    })
-
-    // Set all the values!
-    this.setState((state) => ({ ...state, values }))
-  }
-
-  filterNodes = (): Array<UiNode> => {
-    const { flow, only } = this.props
-    if (!flow) {
-      return []
-    }
-    return flow.ui.nodes.filter(({ group }) => {
-      if (!only) {
-        return true
-      }
-      return group === 'default' || group === only
-    })
-  }
-
-  // Handles form submission
-  handleSubmit = (event: FormEvent<HTMLFormElement> | MouseEvent) => {
-    // Prevent all native handlers
-    event.stopPropagation()
-    event.preventDefault()
-
-    // Prevent double submission!
-    if (this.state.isLoading) {
-      return Promise.resolve()
-    }
-
-    const form = event.currentTarget
-
-    let body: T | undefined
-
-    if (form && form instanceof HTMLFormElement) {
-      const formData = new FormData(form)
-
-      // map the entire form data to JSON for the request body
-      body = Object.fromEntries(formData) as T
-
-      const hasSubmitter = (evt: any): evt is { submitter: HTMLInputElement } => 'submitter' in evt
-
-      // We need the method specified from the name and value of the submit button.
-      // when multiple submit buttons are present, the clicked one's value is used.
-      // @ts-ignore
-      if (hasSubmitter(event.nativeEvent)) {
-        // @ts-ignore
-        const method = event.nativeEvent.submitter
-        body = {
-          ...body,
-          ...{ [method.name]: method.value },
-        }
+    // HTMLButtonElement
+    if (target instanceof HTMLButtonElement) {
+      const type = (target.getAttribute('type') || 'submit').toLowerCase()
+      if (type === 'submit' && target.name) {
+        setSubmitter({ name: target.name, value: target.value })
       }
     }
 
-    this.setState((state) => ({
-      ...state,
-      isLoading: true,
-    }))
-
-    return this.props.onSubmit({ ...body, ...this.state.values })
-    // .finally(() => {
-    //   // We wait for reconciliation and update the state after 50ms
-    //   // Done submitting - update loading status
-    //   this.setState((state) => ({
-    //     ...state,
-    //     isLoading: false,
-    //   }))
-    // })
+    // HTMLInputElement type=submit
+    if (target instanceof HTMLInputElement && target.type === 'submit' && target.name) {
+      setSubmitter({ name: target.name, value: target.value })
+    }
   }
 
-  render() {
-    const { hideGlobalMessages, flow } = this.props
-    const { values, isLoading } = this.state
+  const handleSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+      event.stopPropagation()
 
-    // Filter the nodes - only show the ones we want
-    const nodes = this.filterNodes()
+      if (isLoading) return
 
-    if (!flow) {
-      // No flow was set yet? It's probably still loading...
-      //
-      // Nodes have only one element? It is probably just the CSRF Token
-      // and the filter did not match any elements!
-      return null
-    }
+      const form = event.currentTarget
+      const data = new FormData(form)
 
-    return (
-      <form action={flow.ui.action} method={flow.ui.method} onSubmit={this.handleSubmit}>
-        {!hideGlobalMessages ? <Messages messages={flow.ui.messages} /> : null}
+      // Ensure the clicked submitter is represented in the payload
+      if (submitter) {
+        data.set(submitter.name, submitter.value)
+      }
 
-        {nodes.map((node, k) => {
-          const id = getNodeId(node) as keyof Values
-          return (
-            <FormControl margin="normal" key={`${id}-${k}`} fullWidth>
-              <Node
-                key={`${id}-${k}`}
-                disabled={isLoading}
-                node={node}
-                value={values[id]}
-                // @ts-ignore
-                dispatchSubmit={this.handleSubmit}
-                setValue={(value) =>
-                  new Promise((resolve) => {
-                    this.setState(
-                      (state) => ({
-                        ...state,
-                        values: {
-                          ...state.values,
-                          // @ts-ignore
-                          [getNodeId(node)]: value,
-                        },
-                      }),
-                      resolve,
-                    )
+      // Merge current controlled values with form data
+      const body = {
+        ...(Object.fromEntries(data) as Record<string, unknown>),
+        ...(values as Record<string, unknown>),
+      } as T
+
+      try {
+        setIsLoading(true)
+        await onSubmit(body)
+      } finally {
+        setIsLoading(false)
+        // Reset submitter for the next round
+        setSubmitter(null)
+      }
+    },
+    [isLoading, onSubmit, submitter, values]
+  )
+
+  if (!flow) return null
+
+  return (
+    <form
+      ref={formRef}
+      action={flow.ui.action}
+      method={flow.ui.method}
+      onSubmit={handleSubmit}
+      onClickCapture={handleClickCapture}
+    >
+      {!hideGlobalMessages && <Messages messages={flow.ui.messages} />}
+
+      {nodes.map((node) => {
+        const id = String(getNodeId(node))
+        const valueKey = getNodeId(node) as keyof Values
+
+        return (
+          <FormControl margin="normal" key={id} fullWidth>
+            <Node
+              disabled={isLoading}
+              node={node}
+              value={values[valueKey as keyof T]}
+              // Provide a safe programmatic submit for nodes that need it
+              dispatchSubmit={() => {
+                formRef.current?.requestSubmit()
+                return Promise.resolve()
+              }}
+              setValue={(val: unknown) =>
+                new Promise<void>((resolve) => {
+                  setValues((prev) => {
+                    const next = { ...prev } as Record<string, unknown>
+                    next[String(getNodeId(node))] = val
+                    return next as T
                   })
-                }
-              />
-            </FormControl>
-          )
-        })}
-      </form>
-    )
-  }
+                  resolve()
+                })
+              }
+            />
+          </FormControl>
+        )
+      })}
+    </form>
+  )
 }

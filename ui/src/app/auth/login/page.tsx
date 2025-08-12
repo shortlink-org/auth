@@ -5,7 +5,7 @@ import { LoginFlow, UpdateLoginFlowBody } from '@ory/client'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { AxiosError } from 'axios'
 
 import { Flow } from '@/components/ui/Flow'
@@ -55,7 +55,7 @@ const SignIn: NextPage = () => {
 
     // If ?flow=.. was in the URL, we fetch it
     if (flowId) {
-      ory // @ts-ignore
+      ory // @ts-expect-error - flowId type mismatch in ory client
         .getLoginFlow(flowId)
         .then(({ data }) => {
           setFlow(data)
@@ -102,7 +102,7 @@ const SignIn: NextPage = () => {
         // If the previous handler did not catch the error it's most likely a form validation error
         if (err.response?.status === 400) {
           // Yup, it is!
-          // @ts-ignore
+          // @ts-expect-error - response.data type is not properly typed in axios
           setFlow(err.response?.data)
           return
         }
@@ -155,7 +155,7 @@ const SignIn: NextPage = () => {
 
                 <Link href="/auth/registration">
                   <p className="cursor-pointer no-underline hover:underline mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                    Don't have an account? Sign Up
+                    Don&apos;t have an account? Sign Up
                   </p>
                 </Link>
               </div>
@@ -167,4 +167,10 @@ const SignIn: NextPage = () => {
   )
 }
 
-export default SignIn
+const LoginWrapper: NextPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <SignIn />
+  </Suspense>
+)
+
+export default LoginWrapper
