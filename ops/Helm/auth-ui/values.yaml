@@ -18,7 +18,8 @@ ingress:
 
   hostname: shortlink.best
   paths:
-    - path: /
+    - path: /auth(/|$)(.*)
+      pathType: Prefix
       service:
         name: shortlink-auth-ui
         port: 8080
