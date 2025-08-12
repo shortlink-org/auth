@@ -1,0 +1,9 @@
+.*
+*.yml
+*.md
+*
+
+# Exclude
+!landing
+!ops/dockerfile
+!.env.prod
