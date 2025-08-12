@@ -11,4 +11,4 @@
         DOCKERFILE_PATH: ops/dockerfile/auth-ui.Dockerfile
         DOCKERFILE_ARGS: >-
           --build-arg API_URI=https://shortlink.best/auth/login
-          --build-arg NEXT_PUBLIC_CLOUDFLARE_SITE_KEY=${NEXT_PUBLIC_CLOUDFLARE_SITE_KEY}
+          --build-arg NEXT_PUBLIC_API_URI=${NEXT_PUBLIC_API_URI}
