@@ -1,4 +1,4 @@
-//go:generate wire
+//go:generate go tool wire
 //go:build wireinject
 
 // The build tag makes sure the stub is not built in the final build.
@@ -13,13 +13,14 @@ import (
 	"github.com/google/wire"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/shortlink-org/shortlink/boundaries/auth/auth/internal/services/permission"
 	"github.com/shortlink-org/shortlink/pkg/di"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/autoMaxPro"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/config"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/profiling"
 	"github.com/shortlink-org/shortlink/pkg/logger"
-	"github.com/shortlink-org/shortlink/pkg/observability/monitoring"
+	"github.com/shortlink-org/shortlink/pkg/observability/metrics"
+
+	"github.com/shortlink-org/auth/auth/internal/services/permission"
 )
 
 type AuthService struct {
@@ -30,7 +31,7 @@ type AuthService struct {
 
 	// Observability
 	Tracer        trace.TracerProvider
-	Monitoring    *monitoring.Monitoring
+	Metrics       *metrics.Monitoring
 	PprofEndpoint profiling.PprofEndpoint
 
 	// Security
@@ -57,7 +58,7 @@ func NewAuthService(
 	autoMaxProcsOption autoMaxPro.AutoMaxPro,
 
 	// Observability
-	monitoring *monitoring.Monitoring,
+	metrics *metrics.Monitoring,
 	tracer trace.TracerProvider,
 	pprofHTTP profiling.PprofEndpoint,
 
@@ -74,7 +75,7 @@ func NewAuthService(
 
 		// Observability
 		Tracer:        tracer,
-		Monitoring:    monitoring,
+		Metrics:       metrics,
 		PprofEndpoint: pprofHTTP,
 		AutoMaxPro:    autoMaxProcsOption,
 
