@@ -4,6 +4,6 @@
 *
 
 # Exclude
-!landing
+!ui
 !ops/dockerfile
 !.env.prod

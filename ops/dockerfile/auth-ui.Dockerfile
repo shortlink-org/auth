@@ -43,7 +43,7 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 
-COPY ./landing/ ./
+COPY ./ui/ ./
 
 # Create npmrc with proper configuration
 RUN echo '@shortlink-org:registry=https://gitlab.com/api/v4/packages/npm/' > .npmrc \
