@@ -42,9 +42,8 @@ const nextConfig: NextConfig = {
     return {
       beforeFiles: [
         {
-          source: `/api/auth/:uri*`,
+          source: '/api/auth/:uri*',
           destination: `${AUTH_URI}/:uri*`,
-          basePath: false,
         },
       ],
     }
