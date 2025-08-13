@@ -3,36 +3,54 @@ server {
     listen [::]:8080;
     server_name _;
 
-    # Path to your Next.js export (contains: auth/, _next/, index.html, …)
+    # Path to your Next.js export (contains: index.html, _next/, login.html, etc.)
     root /usr/share/nginx/html;
 
-    # --------------------------------
-    # 1) Next.js runtime assets (/_next)
-    # --------------------------------
+    # --------------------------------------------------
+    # 1) Next.js runtime assets under basePath (/auth/_next)
+    # --------------------------------------------------
+    # Browser requests /auth/_next/... but files live at /_next/...
+    # No SPA fallback here — only serve real asset files.
+    location ^~ /auth/_next/ {
+        alias /usr/share/nginx/html/_next/;
+        try_files $uri =404;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+
+    # (Optional) handle /_next/static/ if accessed without /auth
     location ^~ /_next/static/ {
         try_files $uri =404;
         add_header Cache-Control "public, max-age=31536000, immutable";
     }
 
-    # --------------------------------
+    # --------------------------------------------------
     # 2) App pages under /auth
-    # --------------------------------
-    # clean URLs: /auth/login -> /auth/login.html (trailingSlash: false)
-    # SPA-фолбэк — на /auth/index.html
+    # --------------------------------------------------
+    # /auth/login -> /login.html (trailingSlash: false)
+    # Fallback to root /index.html (since export files are in the root)
     location ^~ /auth/ {
-        try_files $uri $uri.html $uri/ /auth/index.html;
+        rewrite ^/auth/(.*)$ /$1 break;         # strip /auth/ prefix
+        try_files $uri $uri.html $uri/ /index.html;
     }
 
-    # --------------------------------
-    # 3) Generic static files (top-level)
-    # --------------------------------
+    # --------------------------------------------------
+    # 3) Generic static files by extension (outside /auth/_next)
+    # --------------------------------------------------
     location ~* \.(?:ico|gif|jpe?g|png|webp|woff2?|eot|otf|ttf|svg|js|css)$ {
         try_files $uri =404;
     }
 
-    # --------------------------------
+    # --------------------------------------------------
+    # 4) Root SPA fallback (if serving another app at /)
+    # --------------------------------------------------
+    location / {
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # --------------------------------------------------
     # 5) Health checks (JSON)
-    # --------------------------------
+    # --------------------------------------------------
     location = /live {
         access_log off;
         default_type application/json;

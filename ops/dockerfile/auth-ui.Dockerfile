@@ -90,9 +90,7 @@ LABEL \
 ###############################################################################
 USER root
 RUN apk add --no-cache curl \
- && rm /etc/nginx/conf.d/default.conf \
- && adduser -D -u 1001 -g '' nginx-user
-USER nginx-user  # switch to non-root user for security
+ && rm /etc/nginx/conf.d/default.conf
 
 ###############################################################################
 # NGINX configuration & static assets
@@ -104,11 +102,15 @@ COPY ./ops/dockerfile/conf/templates    /etc/nginx/template
 # Next.js export build from the builder stage
 COPY --from=builder /app/out /usr/share/nginx/html
 
+# Ensure correct permissions for the runtime user
+RUN chown -R 101:0 /etc/nginx /usr/share/nginx/html
+
 ###############################################################################
 # Health-check, port & runtime user
 ###############################################################################
+USER 101  # use the image's built-in non-root user
+
 HEALTHCHECK --interval=5s --timeout=5s --retries=3 \
   CMD curl -f http://localhost:8080/ || exit 1
 
 EXPOSE 8080
-USER nginx-user
