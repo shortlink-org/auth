@@ -1,56 +1,40 @@
 server {
-  listen 8080;
-  listen [::]:8080;
-  server_name _;
+    listen      8080;
+    listen [::]:8080;
+    server_name _;
 
-  root /usr/share/nginx/html;
-  index index.html;
+    gzip on;
+    gzip_proxied any;
+    gzip_comp_level 4;
+    gzip_types text/css application/javascript image/svg+xml;
 
-  # --- Health endpoints ---
-  location = /live {
-    access_log off;
-    default_type application/json;
-    return 200 '{"status":"healthy"}';
-  }
+    root   /usr/share/nginx/html;
 
-  location = /ready {
-    access_log off;
-    default_type application/json;
-    return 200 '{"status":"ready"}';
-  }
+    location ~* \.(?:ico|gif|jpe?g|png|woff2?|eot|otf|ttf|svg|js|css)$ {
+        try_files $uri $uri/;
+    }
 
-  # Optional: make "/" and "/auth[/]" land on the login page
-  location = /       { return 301 /auth/login; }
-  location = /auth   { return 301 /auth/login; }
-  location = /auth/  { return 301 /auth/login; }
+    location / {
+        try_files $uri $uri/ @htmlext;
+    }
 
-  # Next.js hashed assets (if present)
-  location ^~ /auth/_next/ {
-    alias /usr/share/nginx/html/_next/;
-    access_log off;
-    expires 1y;
-    add_header Cache-Control "public, max-age=31536000, immutable";
-  }
+    location ~ \.html$ {
+        try_files $uri =404;
+    }
 
-  # Cacheable static files under /auth
-  location ~* ^/auth/.*\.(?:css|js|map|png|jpg|jpeg|gif|svg|ico|webp|avif|ttf|otf|woff2?|json|txt)$ {
-    try_files $uri =404;
-    access_log off;
-    expires 7d;
-    add_header Cache-Control "public, max-age=604800";
-  }
+    location @htmlext {
+        rewrite ^(.*)$ $1.html last;
+    }
 
-  # /auth/<page> -> /usr/share/nginx/html/auth/<page>.html
-  location ^~ /auth/ {
-    try_files $uri $uri.html =404;
-  }
+    location = /live {
+        access_log off;
+        default_type application/json;
+        return 200 '{"status":"healthy"}';
+    }
 
-  # Optional custom 404
-  error_page 404 /auth/404.html;
-
-  # Gzip for text assets
-  gzip on;
-  gzip_min_length 1024;
-  gzip_types text/plain text/css application/javascript application/json
-             application/xml text/xml application/wasm;
+    location = /ready {
+        access_log off;
+        default_type application/json;
+        return 200 '{"status":"ready"}';
+    }
 }
