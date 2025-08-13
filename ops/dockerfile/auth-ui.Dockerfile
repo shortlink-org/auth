@@ -108,7 +108,8 @@ RUN chown -R 101:0 /etc/nginx /usr/share/nginx/html
 ###############################################################################
 # Health-check, port & runtime user
 ###############################################################################
-USER 101  # use the image's built-in non-root user
+# Use the image's built-in non-root user (UID 101)
+USER 101
 
 HEALTHCHECK --interval=5s --timeout=5s --retries=3 \
   CMD curl -f http://localhost:8080/ || exit 1
