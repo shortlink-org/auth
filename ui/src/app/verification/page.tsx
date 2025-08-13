@@ -64,7 +64,7 @@ const Page: NextPage = () => {
       if (!flow?.id) return
 
       // Keep flow ID in the URL so reloads don’t lose state
-      router.push(`/auth/verification?flow=${flow.id}`)
+      router.push(`/verification?flow=${flow.id}`)
 
       try {
         const { data } = await ory.updateVerificationFlow({
@@ -87,7 +87,7 @@ const Page: NextPage = () => {
           const payload = anyErr.response.data as { use_flow_id?: string }
           if (payload.use_flow_id) {
             const newFlowID = payload.use_flow_id
-            router.push(`/auth/verification?flow=${newFlowID}`)
+            router.push(`/verification?flow=${newFlowID}`)
             const { data } = await ory.getVerificationFlow({ id: newFlowID })
             setFlow(data)
             return

@@ -58,7 +58,7 @@ const SignUpContent: React.FC = () => {
       if (!flow?.id) return
 
       // Keep flow id in URL so reloads don’t lose state
-      router.push(`/auth/registration?flow=${flow.id}`)
+      router.push(`/registration?flow=${flow.id}`)
 
       try {
         const { data } = await ory.updateRegistrationFlow({
@@ -70,7 +70,7 @@ const SignUpContent: React.FC = () => {
         if (data.continue_with && data.continue_with.length > 0) {
           for (const item of data.continue_with) {
             if (item.action === 'show_verification_ui') {
-              router.push(`/auth/verification?flow=${item.flow.id}`)
+              router.push(`/verification?flow=${item.flow.id}`)
               return
             }
           }
