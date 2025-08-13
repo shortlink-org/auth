@@ -1,41 +1,39 @@
 server {
-    listen      8080;
-    listen [::]:8080;
-    server_name _;
+  listen 8080;
+  listen [::]:8080;
+  server_name _;
 
-    gzip on;
-    gzip_proxied any;
-    gzip_comp_level 4;
-    gzip_types text/css application/javascript image/svg+xml;
+  root /usr/share/nginx/html;             # contains: index.html, login.html, _next/, ...
 
-    root   /usr/share/nginx/html;
+  gzip on;
+  gzip_proxied any;
+  gzip_comp_level 4;
+  gzip_types text/css application/javascript image/svg+xml;
 
-    location ~* \.(?:ico|gif|jpe?g|png|woff2?|eot|otf|ttf|svg|js|css)$ {
-      try_files $uri $uri/;
-    }
+  # Static assets (when not under /auth)
+  location ~* \.(?:ico|gif|jpe?g|png|woff2?|eot|otf|ttf|svg|js|css)$ {
+    try_files $uri =404;
+  }
 
-    location / {
-      index index.html;
-      try_files $uri $uri/ /index.html =404;
-    }
+  # 1) Next runtime assets under basePath
+  location ^~ /auth/_next/ {
+    alias /usr/share/nginx/html/_next/;
+    try_files $uri =404;
+    add_header Cache-Control "public, max-age=31536000, immutable";
+  }
 
-    # Next static export under basePath "/auth"
-      location ^~ /auth/ {
-        # /auth/login  -> /login.html
-        # /auth/login/ -> /login/ (if it exists)
-        rewrite ^/auth/(.*)$ /$1 break;
-        try_files /$1 /$1.html /$1/ /index.html;
-      }
+  # 2) App pages under /auth (strip prefix; allow SPA fallback)
+  location ^~ /auth/ {
+    rewrite ^/auth/(.*)$ /$1 break;
+    try_files $uri $uri.html $uri/ /index.html;
+  }
 
-    location /live {
-        access_log off;
-        default_type text/plain;
-        return 200 "healthy\n";
-    }
+  # Root app fallback (if needed)
+  location / {
+    index index.html;
+    try_files $uri $uri/ /index.html;
+  }
 
-    location /ready {
-        access_log off;
-        default_type text/plain;
-        return 200 "healthy\n";
-    }
+  location /live  { access_log off; default_type text/plain; return 200 "healthy\n"; }
+  location /ready { access_log off; default_type text/plain; return 200 "healthy\n"; }
 }
