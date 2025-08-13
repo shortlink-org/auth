@@ -36,18 +36,18 @@ const nextConfig: NextConfig = {
   },
   // If you truly need a CDN path for static assets only, set assetPrefix as well,
   // but usually basePath is sufficient for an app mounted at /auth.
-  async rewrites() {
-    if (isProd) return []
-    // Proxy ORY Kratos locally; basePath is stripped for matching due to basePath: false.
-    return {
-      beforeFiles: [
-        {
-          source: '/api/auth/:uri*',
-          destination: `${AUTH_URI}/:uri*`,
-        },
-      ],
-    }
-  },
+  // async rewrites() {
+  //   if (isProd) return []
+  //   // Proxy ORY Kratos locally; basePath is stripped for matching due to basePath: false.
+  //   return {
+  //     beforeFiles: [
+  //       {
+  //         source: '/api/auth/:uri*',
+  //         destination: `${AUTH_URI}/api/auth/:uri*`,
+  //       },
+  //     ],
+  //   }
+  // },
 }
 
 export default nextConfig

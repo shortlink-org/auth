@@ -147,13 +147,13 @@ const SignIn: NextPage = () => {
               <Flow key="login" onSubmit={onSubmit} flow={flow} />
 
               <div className="flex items-center justify-between">
-                <Link href="/auth/forgot">
+                <Link href="/forgot">
                   <p className="cursor-pointer no-underline hover:underline mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">
                     Forgot password?
                   </p>
                 </Link>
 
-                <Link href="/auth/registration">
+                <Link href="/registration">
                   <p className="cursor-pointer no-underline hover:underline mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">
                     Don&apos;t have an account? Sign Up
                   </p>

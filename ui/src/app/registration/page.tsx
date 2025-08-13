@@ -137,7 +137,7 @@ const SignUpContent: React.FC = () => {
               <Flow<UpdateRegistrationFlowBody> onSubmit={onSubmit} flow={flow} />
 
               <div className="flex justify-end">
-                <Link href="/auth/login" className="no-underline">
+                <Link href="/login" className="no-underline">
                   <p className="mt-4 cursor-pointer text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:underline">
                     Already have an account? Log in
                   </p>

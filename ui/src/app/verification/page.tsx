@@ -145,13 +145,13 @@ const Page: NextPage = () => {
               <Flow<UpdateVerificationFlowBody> key="verification" onSubmit={onSubmit} flow={flow} />
 
               <div className="flex items-center justify-between">
-                <Link href="/auth/forgot" className="no-underline">
+                <Link href="/forgot" className="no-underline">
                   <p className="mt-4 cursor-pointer text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:underline">
                     Forgot password?
                   </p>
                 </Link>
 
-                <Link href="/auth/registration" className="no-underline">
+                <Link href="/registration" className="no-underline">
                   <p className="mt-4 cursor-pointer text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:underline">
                     Don&apos;t have an account? Sign Up
                   </p>
