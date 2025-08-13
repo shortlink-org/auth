@@ -19,6 +19,13 @@ server {
       try_files $uri $uri/ /index.html =404;
     }
 
+    # Next static export under basePath "/auth"
+    location ^~ /auth/ {
+        # This covers: /auth/foo -> /auth/foo.html, /auth/foo/ -> directory index.
+        # If none exist, fall back to SPA entry for the /auth app.
+        try_files $uri $uri.html $uri/ /auth/index.html;
+    }
+
     location /live {
         access_log off;
         default_type text/plain;
