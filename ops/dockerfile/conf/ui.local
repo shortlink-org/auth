@@ -15,10 +15,12 @@ server {
     try_files $uri =404;
   }
 
-  # 1) Next runtime assets under basePath
+  # maps /auth/_next/* -> /_next/* and NEVER falls back to index.html
   location ^~ /auth/_next/ {
-    alias /usr/share/nginx/html/_next/;
-    try_files $uri =404;
+    # option A: rewrite to the real path
+    rewrite ^/auth/_next/(.*)$ /_next/$1 break;
+
+    try_files $uri =404;  # important: no SPA fallback for assets
     add_header Cache-Control "public, max-age=31536000, immutable";
   }
 

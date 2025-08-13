@@ -1,56 +1,50 @@
-import { UiNode } from '@ory/client'
+'use client'
+
+import * as React from 'react'
+import type { UiNode } from '@ory/client'
 import {
-  isUiNodeAnchorAttributes,
-  isUiNodeImageAttributes,
-  isUiNodeInputAttributes,
-  isUiNodeScriptAttributes,
-  isUiNodeTextAttributes,
+    isUiNodeAnchorAttributes,
+    isUiNodeImageAttributes,
+    isUiNodeInputAttributes,
+    isUiNodeScriptAttributes,
+    isUiNodeTextAttributes,
 } from '@ory/integrations/ui'
 
-import { FormDispatcher, ValueSetter } from './helpers'
+import type { FormDispatcher, ValueSetter } from './helpers'
 import { NodeAnchor } from './NodeAnchor'
 import { NodeImage } from './NodeImage'
 import { NodeInput } from './NodeInput'
 import { NodeScript } from './NodeScript'
 import { NodeText } from './NodeText'
 
-interface Props {
-  node: UiNode
-  disabled: boolean
-  value: unknown
-  setValue: ValueSetter
-  dispatchSubmit: FormDispatcher
+export interface NodeProps {
+    node: UiNode
+    disabled: boolean
+    value: unknown
+    setValue: ValueSetter
+    dispatchSubmit: FormDispatcher
 }
 
-export function Node({ node, value, setValue, disabled, dispatchSubmit }: Props) {
-  if (isUiNodeImageAttributes(node.attributes)) {
-    return <NodeImage node={node} attributes={node.attributes} />
-  }
+export function Node({ node, value, setValue, disabled, dispatchSubmit }: NodeProps) {
+    const attrs = node.attributes
 
-  if (isUiNodeScriptAttributes(node.attributes)) {
-    return <NodeScript node={node} attributes={node.attributes} />
-  }
+    if (isUiNodeImageAttributes(attrs)) return <NodeImage node={node} attributes={attrs} />
+    if (isUiNodeScriptAttributes(attrs)) return <NodeScript node={node} attributes={attrs} />
+    if (isUiNodeTextAttributes(attrs)) return <NodeText node={node} attributes={attrs} />
+    if (isUiNodeAnchorAttributes(attrs)) return <NodeAnchor node={node} attributes={attrs} />
 
-  if (isUiNodeTextAttributes(node.attributes)) {
-    return <NodeText node={node} attributes={node.attributes} />
-  }
+    if (isUiNodeInputAttributes(attrs)) {
+        return (
+            <NodeInput
+                node={node}
+                attributes={attrs}
+                disabled={disabled}
+                value={value}
+                setValue={setValue}
+                dispatchSubmit={dispatchSubmit} // now matches expected async type
+            />
+        )
+    }
 
-  if (isUiNodeAnchorAttributes(node.attributes)) {
-    return <NodeAnchor node={node} attributes={node.attributes} />
-  }
-
-  if (isUiNodeInputAttributes(node.attributes)) {
-    return (
-      <NodeInput
-        dispatchSubmit={dispatchSubmit}
-        value={value}
-        setValue={setValue}
-        node={node}
-        disabled={disabled}
-        attributes={node.attributes}
-      />
-    )
-  }
-
-  return null
+    return null
 }
