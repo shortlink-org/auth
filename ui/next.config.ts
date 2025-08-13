@@ -5,7 +5,6 @@ const isProd = process.env.NODE_ENV === "production"
 const AUTH_URI = process.env.AUTH_URI || "http://127.0.0.1:4433"
 
 const nextConfig: NextConfig = {
-  basePath: '/auth',
   reactStrictMode: true,
   generateEtags: false,
   output: 'export',

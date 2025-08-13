@@ -3,48 +3,36 @@ server {
     listen [::]:8080;
     server_name _;
 
-    # Path to your Next.js export output (contains index.html, _next/, etc.)
+    # Path to your Next.js export (contains: auth/, _next/, index.html, …)
     root /usr/share/nginx/html;
 
-    # -------------------------------
-    # 1) Next.js runtime assets
-    # -------------------------------
-    # Requests like /auth/_next/static/... → actual /_next/static/...
-    location ^~ /auth/_next/ {
-        alias /usr/share/nginx/html/_next/;
+    # --------------------------------
+    # 1) Next.js runtime assets (/_next)
+    # --------------------------------
+    location ^~ /_next/static/ {
         try_files $uri =404;
-
-        # Long-term caching for hashed assets
         add_header Cache-Control "public, max-age=31536000, immutable";
     }
 
-    # -------------------------------
+    # --------------------------------
     # 2) App pages under /auth
-    # -------------------------------
-    # /auth/login → /login.html (trailingSlash: false)
+    # --------------------------------
+    # clean URLs: /auth/login -> /auth/login.html (trailingSlash: false)
+    # SPA-фолбэк — на /auth/index.html
     location ^~ /auth/ {
-        rewrite ^/auth/(.*)$ /$1 break;
-        try_files $uri $uri.html $uri/ /index.html;
+        try_files $uri $uri.html $uri/ /auth/index.html;
     }
 
-    # -------------------------------
-    # 3) Generic static files
-    # -------------------------------
+    # --------------------------------
+    # 3) Generic static files (top-level)
+    # --------------------------------
     location ~* \.(?:ico|gif|jpe?g|png|webp|woff2?|eot|otf|ttf|svg|js|css)$ {
         try_files $uri =404;
     }
 
-    # -------------------------------
-    # 4) Root app fallback (optional)
-    # -------------------------------
-    location / {
-        index index.html;
-        try_files $uri $uri/ /index.html;
-    }
-
-    # -------------------------------
-    # 5) Health check endpoints
-    # -------------------------------
+    # --------------------------------
+    # 5) Health checks (JSON)
+    # --------------------------------
     location = /live {
         access_log off;
         default_type application/json;
