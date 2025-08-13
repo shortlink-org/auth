@@ -3,14 +3,8 @@ server {
     listen [::]:8080;
     server_name _;
 
-    # Path to your Next.js export (contains: index.html, _next/, login.html, etc.)
+    # Path to your Next.js export (contains: auth/, _next/, index.html, etc.)
     root /usr/share/nginx/html;
-
-    # --------------------------------------------------
-    # 0) Normalize double/triple prefixes (e.g., /auth/auth/... -> /auth/...)
-    # --------------------------------------------------
-    # Prevents repeated basePath from bad links or redirects.
-    rewrite ^/auth/(?:auth/)+(.*)$ /auth/$1 permanent;
 
     # --------------------------------------------------
     # 1) Next.js runtime assets under basePath (/auth/_next)
@@ -25,20 +19,13 @@ server {
         add_header Cache-Control "public, max-age=31536000, immutable";
     }
 
-    # (Optional) also serve /_next/static when accessed without /auth
-    location ^~ /_next/static/ {
-        try_files $uri =404;
-        add_header Cache-Control "public, max-age=31536000, immutable";
-    }
-
     # --------------------------------------------------
-    # 2) App pages under /auth
+    # 2) App pages under /auth  (NO prefix stripping)
     # --------------------------------------------------
-    # Clean URLs: /auth/login -> /login.html (trailingSlash: false)
-    # Fallback goes to root /index.html because export files are at the root.
+    # Clean URLs: /auth/login -> /auth/login.html  (trailingSlash: false)
+    # If file not found — return 404 (no fallback to root index.html).
     location ^~ /auth/ {
-        rewrite ^/auth/(.*)$ /$1 break;         # strip /auth/ prefix once
-        try_files $uri $uri.html $uri/ /index.html;
+        try_files $uri $uri.html $uri/ =404;
     }
 
     # --------------------------------------------------
@@ -49,7 +36,7 @@ server {
     }
 
     # --------------------------------------------------
-    # 4) Root SPA fallback (if also serving a root app at /)
+    # 4) Root SPA fallback (only for root app at /, if any)
     # --------------------------------------------------
     location / {
         index index.html;
