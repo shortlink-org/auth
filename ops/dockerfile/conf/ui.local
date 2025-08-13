@@ -1,60 +1,56 @@
 server {
-    listen      8080;
-    listen [::]:8080;
-    server_name _;
+  listen 8080;
+  listen [::]:8080;
+  server_name _;
 
-    # Path to your Next.js export (contains: auth/, _next/, index.html, etc.)
-    root /usr/share/nginx/html;
+  root /usr/share/nginx/html;
+  index index.html;
 
-    # --------------------------------------------------
-    # 1) Next.js runtime assets under basePath (/auth/_next)
-    # --------------------------------------------------
-    # Browser requests /auth/_next/... while files live at /_next/...
-    # Never fall back to index.html for assets to avoid MIME errors.
-    location ^~ /auth/_next/ {
-        alias /usr/share/nginx/html/_next/;
-        try_files $uri =404;
+  # --- Health endpoints ---
+  location = /live {
+    access_log off;
+    default_type application/json;
+    return 200 '{"status":"healthy"}';
+  }
 
-        # Long-term caching for hashed assets
-        add_header Cache-Control "public, max-age=31536000, immutable";
-    }
+  location = /ready {
+    access_log off;
+    default_type application/json;
+    return 200 '{"status":"ready"}';
+  }
 
-    # --------------------------------------------------
-    # 2) App pages under /auth  (NO prefix stripping)
-    # --------------------------------------------------
-    # Clean URLs: /auth/login -> /auth/login.html  (trailingSlash: false)
-    # If file not found — return 404 (no fallback to root index.html).
-    location ^~ /auth/ {
-        try_files $uri $uri.html $uri/ =404;
-    }
+  # Optional: make "/" and "/auth[/]" land on the login page
+  location = /       { return 301 /auth/login; }
+  location = /auth   { return 301 /auth/login; }
+  location = /auth/  { return 301 /auth/login; }
 
-    # --------------------------------------------------
-    # 3) Generic static files by extension (outside /auth/_next)
-    # --------------------------------------------------
-    location ~* \.(?:ico|gif|jpe?g|png|webp|woff2?|eot|otf|ttf|svg|js|css)$ {
-        try_files $uri =404;
-    }
+  # Next.js hashed assets (if present)
+  location ^~ /auth/_next/ {
+    alias /usr/share/nginx/html/_next/;
+    access_log off;
+    expires 1y;
+    add_header Cache-Control "public, max-age=31536000, immutable";
+  }
 
-    # --------------------------------------------------
-    # 4) Root SPA fallback (only for root app at /, if any)
-    # --------------------------------------------------
-    location / {
-        index index.html;
-        try_files $uri $uri/ /index.html;
-    }
+  # Cacheable static files under /auth
+  location ~* ^/auth/.*\.(?:css|js|map|png|jpg|jpeg|gif|svg|ico|webp|avif|ttf|otf|woff2?|json|txt)$ {
+    try_files $uri =404;
+    access_log off;
+    expires 7d;
+    add_header Cache-Control "public, max-age=604800";
+  }
 
-    # --------------------------------------------------
-    # 5) Health checks (JSON)
-    # --------------------------------------------------
-    location = /live {
-        access_log off;
-        default_type application/json;
-        return 200 '{"status":"healthy"}';
-    }
+  # /auth/<page> -> /usr/share/nginx/html/auth/<page>.html
+  location ^~ /auth/ {
+    try_files $uri $uri.html =404;
+  }
 
-    location = /ready {
-        access_log off;
-        default_type application/json;
-        return 200 '{"status":"ready"}';
-    }
+  # Optional custom 404
+  error_page 404 /auth/404.html;
+
+  # Gzip for text assets
+  gzip on;
+  gzip_min_length 1024;
+  gzip_types text/plain text/css application/javascript application/json
+             application/xml text/xml application/wasm;
 }
