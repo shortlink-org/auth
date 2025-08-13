@@ -7,6 +7,12 @@ server {
     root /usr/share/nginx/html;
 
     # --------------------------------------------------
+    # 0) Normalize double/triple prefixes (e.g., /auth/auth/... -> /auth/...)
+    # --------------------------------------------------
+    # Prevents repeated basePath from bad links or redirects.
+    rewrite ^/auth/(?:auth/)+(.*)$ /auth/$1 permanent;
+
+    # --------------------------------------------------
     # 1) Next.js runtime assets under basePath (/auth/_next)
     # --------------------------------------------------
     # Browser requests /auth/_next/... while files live at /_next/...
