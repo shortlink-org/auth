@@ -20,11 +20,12 @@ server {
     }
 
     # Next static export under basePath "/auth"
-    location ^~ /auth/ {
-        # This covers: /auth/foo -> /auth/foo.html, /auth/foo/ -> directory index.
-        # If none exist, fall back to SPA entry for the /auth app.
-        try_files $uri $uri.html $uri/ /auth/index.html;
-    }
+      location ^~ /auth/ {
+        # /auth/login  -> /login.html
+        # /auth/login/ -> /login/ (if it exists)
+        rewrite ^/auth/(.*)$ /$1 break;
+        try_files /$1 /$1.html /$1/ /index.html;
+      }
 
     location /live {
         access_log off;
