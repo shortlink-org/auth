@@ -9,13 +9,13 @@ package auth_di
 import (
 	"github.com/authzed/authzed-go/v1"
 	"github.com/google/wire"
-	permission2 "github.com/shortlink-org/auth/auth/internal/services/permission"
+	"github.com/shortlink-org/auth/auth/internal/di/pkg/permission"
+	"github.com/shortlink-org/auth/auth/internal/services/permission"
 	"github.com/shortlink-org/shortlink/pkg/di"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/autoMaxPro"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/config"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/context"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/logger"
-	"github.com/shortlink-org/shortlink/pkg/di/pkg/permission"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/profiling"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/traicing"
 	"github.com/shortlink-org/shortlink/pkg/logger"
@@ -71,7 +71,7 @@ func InitializeAuthService() (*AuthService, func(), error) {
 		cleanup()
 		return nil, nil, err
 	}
-	client, err := permission.New(context, logger, tracerProvider, monitoring)
+	client, err := permission_client.New(context, logger, tracerProvider, monitoring)
 	if err != nil {
 		cleanup5()
 		cleanup4()
@@ -80,7 +80,7 @@ func InitializeAuthService() (*AuthService, func(), error) {
 		cleanup()
 		return nil, nil, err
 	}
-	service, err := permission2.New(context, logger, client)
+	service, err := permission.New(context, logger, client)
 	if err != nil {
 		cleanup5()
 		cleanup4()
@@ -124,11 +124,11 @@ type AuthService struct {
 	authPermission *authzed.Client
 
 	// Application
-	permissionService *permission2.Service
+	permissionService *permission.Service
 }
 
 // AuthService =========================================================================================================
-var AuthSet = wire.NewSet(di.DefaultSet, permission2.New, NewAuthService)
+var AuthSet = wire.NewSet(di.DefaultSet, permission_client.New, permission.New, NewAuthService)
 
 func NewAuthService(
 
@@ -139,7 +139,7 @@ func NewAuthService(
 
 	authPermission *authzed.Client,
 
-	permissionService *permission2.Service,
+	permissionService *permission.Service,
 ) (*AuthService, error) {
 	return &AuthService{
 

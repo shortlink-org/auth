@@ -20,6 +20,7 @@ import (
 	"github.com/shortlink-org/shortlink/pkg/logger"
 	"github.com/shortlink-org/shortlink/pkg/observability/metrics"
 
+	permission_client "github.com/shortlink-org/auth/auth/internal/di/pkg/permission"
 	"github.com/shortlink-org/auth/auth/internal/services/permission"
 )
 
@@ -44,6 +45,7 @@ type AuthService struct {
 // AuthService =========================================================================================================
 var AuthSet = wire.NewSet(
 	di.DefaultSet,
+	permission_client.New,
 
 	// Application
 	permission.New,
