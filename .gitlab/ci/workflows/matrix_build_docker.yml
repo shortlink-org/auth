@@ -12,3 +12,12 @@
         DOCKERFILE_ARGS: >-
           --build-arg API_URI=${API_URI}
           --build-arg NEXT_PUBLIC_API_URI=${NEXT_PUBLIC_API_URI}
+
+.matrix_build_docker:
+  parallel:
+    matrix:
+      - APPLICATION: auth
+        REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/auth
+        DOCKERFILE_PATH: ops/dockerfile/go.Dockerfile
+        DOCKERFILE_ARGS: >-
+          --build-arg CMD_PATH=./auth/cmd

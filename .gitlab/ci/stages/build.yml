@@ -12,6 +12,15 @@ docker:ui:
       - local: '.gitlab/ci/pipelines/docker_ui.yml'
     strategy: depend
 
+docker:
+  extends:
+    - .matrix_build_docker
+  stage: build
+  trigger:
+    include:
+      - local: '.gitlab/ci/pipelines/docker.yml'
+    strategy: depend
+
 # HELM =================================================================================================================
 helm:
   extends:
