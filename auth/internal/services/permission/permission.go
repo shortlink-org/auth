@@ -18,18 +18,12 @@ import (
 var permissions embed.FS
 
 type Service struct {
-	// Common
-	log logger.Logger
-
 	// Security
 	permission *authzed.Client
 }
 
 func New(ctx context.Context, log logger.Logger, permissionClient *authzed.Client) (*Service, error) {
 	svc := &Service{
-		// Common
-		log: log,
-
 		// Security
 		permission: permissionClient,
 	}
