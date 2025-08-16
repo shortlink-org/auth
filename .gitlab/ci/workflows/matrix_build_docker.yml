@@ -18,6 +18,7 @@
     matrix:
       - APPLICATION: auth
         REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/auth
-        DOCKERFILE_PATH: ops/dockerfile/go.Dockerfile
+        WORKDIR: ./auth
+        DOCKERFILE_PATH: Dockerfile
         DOCKERFILE_ARGS: >-
-          --build-arg CMD_PATH=./auth/cmd
+          --build-arg CMD_PATH=./cmd
