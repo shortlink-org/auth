@@ -43,8 +43,8 @@ deploy:
   annotations: {}
 
   image:
-    repository: registry.gitlab.com/shortlink-org/shortlink/auth
-    tag: 0.19.5
+    repository: registry.gitlab.com/shortlink-org/auth/auth
+    tag: main
     # -- Global imagePullPolicy
     # Default: 'Always' if image tag is 'latest', else 'IfNotPresent'
     # Ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
