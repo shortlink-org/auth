@@ -3,9 +3,10 @@ module github.com/shortlink-org/auth/auth
 go 1.25.0
 
 require (
-	github.com/authzed/authzed-go v1.4.1
+	github.com/authzed/authzed-go v1.5.0
 	github.com/google/wire v0.6.0
 	github.com/ory/dockertest/v3 v3.12.0
+	github.com/shortlink-org/shortlink v0.0.0-20250814202803-52a04c66aa09
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
 	go.opentelemetry.io/otel/trace v1.37.0
@@ -98,7 +99,6 @@ require (
 	github.com/redis/rueidis/rueidisotel v1.0.64 // indirect
 	github.com/sagikazarmark/locafero v0.7.0 // indirect
 	github.com/samber/lo v1.51.0 // indirect
-	github.com/shortlink-org/shortlink v0.0.0-20250814202803-52a04c66aa09 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.14.0 // indirect
