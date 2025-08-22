@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/authzed/authzed-go v1.5.0
-	github.com/google/wire v0.6.0
+	github.com/google/wire v0.7.0
 	github.com/ory/dockertest/v3 v3.12.0
 	github.com/shortlink-org/shortlink v0.0.0-20250814202803-52a04c66aa09
 	github.com/spf13/viper v1.20.1
