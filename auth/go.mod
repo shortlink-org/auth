@@ -8,7 +8,7 @@ require (
 	github.com/ory/dockertest/v3 v3.12.0
 	github.com/shortlink-org/shortlink v0.0.0-20250814202803-52a04c66aa09
 	github.com/spf13/viper v1.20.1
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel/trace v1.37.0
 	gopkg.in/yaml.v3 v3.0.1
 )
