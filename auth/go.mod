@@ -6,7 +6,7 @@ require (
 	github.com/authzed/authzed-go v1.5.0
 	github.com/google/wire v0.6.0
 	github.com/ory/dockertest/v3 v3.12.0
-	github.com/shortlink-org/shortlink v0.0.0-20250814202803-52a04c66aa09
+	github.com/shortlink-org/shortlink 46530d67cbea
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel/trace v1.37.0
