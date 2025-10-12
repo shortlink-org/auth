@@ -13,11 +13,10 @@ import (
 	"github.com/google/wire"
 	"go.opentelemetry.io/otel/trace"
 
+	"github.com/shortlink-org/go-sdk/config"
+	"github.com/shortlink-org/go-sdk/logger"
 	"github.com/shortlink-org/shortlink/pkg/di"
-	"github.com/shortlink-org/shortlink/pkg/di/pkg/autoMaxPro"
-	"github.com/shortlink-org/shortlink/pkg/di/pkg/config"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/profiling"
-	"github.com/shortlink-org/shortlink/pkg/logger"
 	"github.com/shortlink-org/shortlink/pkg/observability/metrics"
 
 	permission_client "github.com/shortlink-org/auth/auth/internal/di/pkg/permission"
@@ -26,9 +25,8 @@ import (
 
 type AuthService struct {
 	// Common
-	Log        logger.Logger
-	Config     *config.Config
-	AutoMaxPro autoMaxPro.AutoMaxPro
+	Log    logger.Logger
+	Config *config.Config
 
 	// Observability
 	Tracer        trace.TracerProvider
@@ -57,7 +55,6 @@ func NewAuthService(
 	// Common
 	log logger.Logger,
 	config *config.Config,
-	autoMaxProcsOption autoMaxPro.AutoMaxPro,
 
 	// Observability
 	metrics *metrics.Monitoring,
@@ -79,7 +76,6 @@ func NewAuthService(
 		Tracer:        tracer,
 		Metrics:       metrics,
 		PprofEndpoint: pprofHTTP,
-		AutoMaxPro:    autoMaxProcsOption,
 
 		// Jobs
 		authPermission: authPermission,

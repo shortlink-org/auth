@@ -15,9 +15,7 @@ import (
 	"github.com/ory/dockertest/v3"
 	"github.com/stretchr/testify/require"
 
-	"github.com/shortlink-org/shortlink/pkg/auth"
-	"github.com/shortlink-org/shortlink/pkg/logger"
-	"github.com/shortlink-org/shortlink/pkg/logger/config"
+	"github.com/shortlink-org/go-sdk/auth"
 )
 
 func TestMain(m *testing.M) {
@@ -55,9 +53,6 @@ func TestSpiceDB(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	client := &Service{}
 
-	// get logger
-	log, err := logger.New(logger.Zap, config.Configuration{})
-
 	// uses a sensible default on windows (tcp/http) and linux/osx (socket)
 	pool, err := dockertest.NewPool("")
 	require.NoError(t, err, "Could not connect to docker")
@@ -82,7 +77,7 @@ func TestSpiceDB(t *testing.T) {
 	if errRetry := pool.Retry(func() error {
 		t.Setenv("GRPC_CLIENT_PORT", resource.GetPort("50051/tcp"))
 
-		client.permission, err = auth.New(log, nil, nil)
+		client.permission, err = auth.New()
 		require.NoError(t, err, "Cannot create client")
 
 		// wait for the connection to be ready

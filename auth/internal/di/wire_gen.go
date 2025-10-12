@@ -11,14 +11,13 @@ import (
 	"github.com/google/wire"
 	"github.com/shortlink-org/auth/auth/internal/di/pkg/permission"
 	"github.com/shortlink-org/auth/auth/internal/services/permission"
+	"github.com/shortlink-org/go-sdk/config"
+	"github.com/shortlink-org/go-sdk/logger"
 	"github.com/shortlink-org/shortlink/pkg/di"
-	"github.com/shortlink-org/shortlink/pkg/di/pkg/autoMaxPro"
-	"github.com/shortlink-org/shortlink/pkg/di/pkg/config"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/context"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/logger"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/profiling"
 	"github.com/shortlink-org/shortlink/pkg/di/pkg/traicing"
-	"github.com/shortlink-org/shortlink/pkg/logger"
 	"github.com/shortlink-org/shortlink/pkg/observability/metrics"
 	"go.opentelemetry.io/otel/trace"
 )
@@ -35,28 +34,20 @@ func InitializeAuthService() (*AuthService, func(), error) {
 		cleanup()
 		return nil, nil, err
 	}
-	configConfig, err := config.New(logger)
+	configConfig, err := config.New()
 	if err != nil {
 		cleanup2()
 		cleanup()
 		return nil, nil, err
 	}
-	autoMaxProAutoMaxPro, cleanup3, err := autoMaxPro.New(logger)
+	tracerProvider, cleanup3, err := traicing_di.New(context, logger)
 	if err != nil {
 		cleanup2()
 		cleanup()
 		return nil, nil, err
 	}
-	tracerProvider, cleanup4, err := traicing_di.New(context, logger)
+	monitoring, cleanup4, err := metrics.New(context, logger, tracerProvider)
 	if err != nil {
-		cleanup3()
-		cleanup2()
-		cleanup()
-		return nil, nil, err
-	}
-	monitoring, cleanup5, err := metrics.New(context, logger, tracerProvider)
-	if err != nil {
-		cleanup4()
 		cleanup3()
 		cleanup2()
 		cleanup()
@@ -64,7 +55,6 @@ func InitializeAuthService() (*AuthService, func(), error) {
 	}
 	pprofEndpoint, err := profiling.New(context, logger)
 	if err != nil {
-		cleanup5()
 		cleanup4()
 		cleanup3()
 		cleanup2()
@@ -73,7 +63,6 @@ func InitializeAuthService() (*AuthService, func(), error) {
 	}
 	client, err := permission_client.New(context, logger, tracerProvider, monitoring)
 	if err != nil {
-		cleanup5()
 		cleanup4()
 		cleanup3()
 		cleanup2()
@@ -82,16 +71,14 @@ func InitializeAuthService() (*AuthService, func(), error) {
 	}
 	service, err := permission.New(context, logger, client)
 	if err != nil {
-		cleanup5()
 		cleanup4()
 		cleanup3()
 		cleanup2()
 		cleanup()
 		return nil, nil, err
 	}
-	authService, err := NewAuthService(logger, configConfig, autoMaxProAutoMaxPro, monitoring, tracerProvider, pprofEndpoint, client, service)
+	authService, err := NewAuthService(logger, configConfig, monitoring, tracerProvider, pprofEndpoint, client, service)
 	if err != nil {
-		cleanup5()
 		cleanup4()
 		cleanup3()
 		cleanup2()
@@ -99,7 +86,6 @@ func InitializeAuthService() (*AuthService, func(), error) {
 		return nil, nil, err
 	}
 	return authService, func() {
-		cleanup5()
 		cleanup4()
 		cleanup3()
 		cleanup2()
@@ -111,9 +97,8 @@ func InitializeAuthService() (*AuthService, func(), error) {
 
 type AuthService struct {
 	// Common
-	Log        logger.Logger
-	Config     *config.Config
-	AutoMaxPro autoMaxPro.AutoMaxPro
+	Log    logger.Logger
+	Config *config.Config
 
 	// Observability
 	Tracer        trace.TracerProvider
@@ -132,8 +117,7 @@ var AuthSet = wire.NewSet(di.DefaultSet, permission_client.New, permission.New, 
 
 func NewAuthService(
 
-	log logger.Logger, config2 *config.Config,
-	autoMaxProcsOption autoMaxPro.AutoMaxPro, metrics2 *metrics.Monitoring,
+	log logger.Logger, config2 *config.Config, metrics2 *metrics.Monitoring,
 	tracer trace.TracerProvider,
 	pprofHTTP profiling.PprofEndpoint,
 
@@ -149,7 +133,6 @@ func NewAuthService(
 		Tracer:        tracer,
 		Metrics:       metrics2,
 		PprofEndpoint: pprofHTTP,
-		AutoMaxPro:    autoMaxProcsOption,
 
 		authPermission: authPermission,
 
