@@ -6,7 +6,7 @@ require (
 	github.com/authzed/authzed-go v1.6.0
 	github.com/google/wire v0.7.0
 	github.com/ory/dockertest/v3 v3.12.0
-	github.com/shortlink-org/go-sdk/auth v0.0.0-20251012191404-6b55f4e23f43
+	github.com/shortlink-org/go-sdk/auth 1e2beabd19b6
 	github.com/shortlink-org/go-sdk/config v0.0.0-20251012191404-6b55f4e23f43
 	github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20251012192239-ed21e319d1d2
 	github.com/shortlink-org/go-sdk/grpc v0.0.0-20251012192239-ed21e319d1d2
