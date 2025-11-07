@@ -11,11 +11,6 @@ const nextConfig: NextConfig = {
   output: 'export',
   compress: isProd,
   productionBrowserSourceMaps: isProd,
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
   transpilePackages: ['@shortlink-org/ui-kit'],
   compiler: {
     // ssr and displayName are configured by default
@@ -28,24 +23,39 @@ const nextConfig: NextConfig = {
     },
   },
   bundlePagesRouterDependencies: true,
+  
+  // Enable React Compiler for improved performance
+  reactCompiler: true,
+  
   experimental: {
     webVitalsAttribution: ['CLS', 'FCP', 'FID', 'INP', 'LCP', 'TTFB'],
     clientTraceMetadata: ['sentry-trace', 'baggage'],
-    // reactCompiler: true,
-    // typedRoutes: true,
+  
+    // Forward browser logs to the terminal for easier debugging
+    browserDebugInfoInTerminal: true,
+  
+    // Activate new client-side router improvements
+    clientSegmentCache: true,
+  
+    // Enable support for `global-not-found`
+    globalNotFound: true,
+  
+    // Enable FS cache for Turbopack
+    turbopackFileSystemCacheForDev: true,
   },
+  
   // If you truly need a CDN path for static assets only, set assetPrefix as well,
   // but usually basePath is sufficient for an app mounted at /auth.
   // async rewrites() {
   //   if (isProd) return []
   //   // Proxy ORY Kratos locally; basePath is stripped for matching due to basePath: false.
   //   return {
-  //     beforeFiles: [
-  //       {
-  //         source: '/api/auth/:uri*',
-  //         destination: `${AUTH_URI}/api/auth/:uri*`,
-  //       },
-  //     ],
+  //   beforeFiles: [
+  //     {
+  //     source: '/api/auth/:uri*',
+  //     destination: `${AUTH_URI}/api/auth/:uri*`,
+  //     },
+  //   ],
   //   }
   // },
 }
