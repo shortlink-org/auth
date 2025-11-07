@@ -508,6 +508,8 @@ github.com/shortlink-org/go-sdk/auth v0.0.0-20251030220300-1e2beabd19b6 h1:0zzLR
 github.com/shortlink-org/go-sdk/auth v0.0.0-20251030220300-1e2beabd19b6/go.mod h1:7MMhw31ffeuA6GwY+8ewYTZBQuLaWIHhiNcNh8hdGoI=
 github.com/shortlink-org/go-sdk/config v0.0.0-20251012191404-6b55f4e23f43 h1:xELyP4BnYnwpdDGMdf+NIcMvxJYDJo6uKkeHs5ymmUw=
 github.com/shortlink-org/go-sdk/config v0.0.0-20251012191404-6b55f4e23f43/go.mod h1:s4JQxd6fLJTVl81mKKe7fPNUqPSoozGRaQu9lQlNjnY=
+github.com/shortlink-org/go-sdk/config v0.0.0-20251104190226-1675eff9fff6 h1:D/bYdhIUpj1Ohi+eDTA3x+FVvNHJkQISJig/PR8BQ7w=
+github.com/shortlink-org/go-sdk/config v0.0.0-20251104190226-1675eff9fff6/go.mod h1:PUmaP5xQMa1m8LaSvu+gC//xNN2vICql0I2/TtEQqAI=
 github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20251030220300-1e2beabd19b6 h1:YNhsrvtvcO+thxEerkQ5VfaVbD4VwDogkXZyFSuuWwk=
 github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20251030220300-1e2beabd19b6/go.mod h1:H2Cflyv2RCT/udMu/Q4LNi14QaAEPaV7g8rZZ1QAuhc=
 github.com/shortlink-org/go-sdk/grpc v0.0.0-20251020193241-87e94558595e h1:Zj+C3w8UeOemzeCGP04JA1F/jK+pSO/U+aMAH2MbQrs=

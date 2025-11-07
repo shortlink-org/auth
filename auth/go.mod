@@ -7,7 +7,7 @@ require (
 	github.com/google/wire v0.7.0
 	github.com/ory/dockertest/v3 v3.12.0
 	github.com/shortlink-org/go-sdk/auth v0.0.0-20251030220300-1e2beabd19b6
-	github.com/shortlink-org/go-sdk/config v0.0.0-20251012191404-6b55f4e23f43
+	github.com/shortlink-org/go-sdk/config v0.0.0-20251104190226-1675eff9fff6
 	github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20251030220300-1e2beabd19b6
 	github.com/shortlink-org/go-sdk/grpc v0.0.0-20251104190226-1675eff9fff6
 	github.com/shortlink-org/go-sdk/logger v0.0.0-20251030220300-1e2beabd19b6
