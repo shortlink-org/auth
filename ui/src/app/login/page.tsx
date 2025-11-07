@@ -48,13 +48,12 @@ const SignIn: NextPage = () => {
   const aal = searchParams.get('aal')
 
   useEffect(() => {
-    // If the router is not ready yet, or we already have a flow, do nothing.
-    if (flow) {
-      return
-    }
-
     // If ?flow=.. was in the URL, we fetch it
     if (flowId) {
+      if (flow?.id === flowId) {
+        return
+      }
+
       ory
         .getLoginFlow({ id: String(flowId) })
         .then(({ data }) => {
@@ -64,7 +63,11 @@ const SignIn: NextPage = () => {
       return
     }
 
-    // Otherwise we initialize it
+    // If no flow is set yet, initialize it
+    if (flow) {
+      return
+    }
+
     ory
       .createBrowserLoginFlow({
         refresh: Boolean(refresh),
@@ -81,7 +84,7 @@ const SignIn: NextPage = () => {
     router
       // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
       // his data when she/he reloads the page.
-      .push(`/auth/login?flow=${flow?.id}`)
+      .push(`/login?flow=${flow?.id}`)
 
     ory
       .updateLoginFlow({

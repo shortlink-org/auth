@@ -85,7 +85,7 @@ const ForgotContent: React.FC = () => {
     router
       // On submission, add the flow ID to the URL but do not navigate. This prevents the user loosing
       // his data when she/he reloads the page.
-      .push(`/auth/forget?flow=${flow?.id}`)
+      .push(`/forgot?flow=${flow?.id}`)
 
     ory
       .updateRecoveryFlow({

@@ -23,7 +23,7 @@ export default function withAuthSync<P extends object>(Child: React.ComponentTyp
         .catch((err: AxiosError) => {
           const status = err.response?.status
           if (status === 403 || status === 422) {
-            router.push('/auth/login?aal=aal2')
+            router.push('/login?aal=aal2')
             return
           }
           if (status === 401) {

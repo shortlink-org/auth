@@ -2,6 +2,8 @@ server {
     listen      8080;
     listen [::]:8080;
     server_name _;
+    absolute_redirect off;
+    port_in_redirect off;
 
     gzip on;
     gzip_proxied any;
@@ -14,8 +16,12 @@ server {
         try_files $uri $uri/;
     }
 
+    location ~ ^/(.*)/$ {
+        try_files /$1.html =404;
+    }
+
     location / {
-        try_files $uri $uri/ @htmlext;
+        try_files $uri.html $uri $uri/ @htmlext;
     }
 
     location ~ \.html$ {

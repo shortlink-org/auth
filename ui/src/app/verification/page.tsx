@@ -40,7 +40,7 @@ const Page: NextPage = () => {
         // If flow is expired or forbidden, start a new one
         const anyErr = err as { response?: { status?: number } }
         if (anyErr.response?.status === 410 || anyErr.response?.status === 403) {
-          router.push('/auth/verification')
+          router.push('/verification')
           return
         }
         // For a bad request while creating, just go home
@@ -96,7 +96,7 @@ const Page: NextPage = () => {
 
         // Expired/forbidden -> restart
         if (anyErr.response?.status === 403) {
-          router.push('/auth/verification')
+          router.push('/verification')
           return
         }
 
