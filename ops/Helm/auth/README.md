@@ -22,7 +22,7 @@ Kubernetes: `>= 1.30.0 || >= v1.30.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../../../shortlink-template | shortlink-template | 0.9.6 |
+| oci://ghcr.io/shortlink-org/charts | shortlink-template | 0.9.6 |
 
 ## Values
 
@@ -112,7 +112,7 @@ string
 			<td>
 				<div style="max-width: 300px;">
 <pre lang="json">
-"registry.gitlab.com/shortlink-org/shortlink/auth"
+"registry.gitlab.com/shortlink-org/auth/auth"
 </pre>
 </div>
 			</td>
@@ -126,7 +126,7 @@ string
 			<td>
 				<div style="max-width: 300px;">
 <pre lang="json">
-"0.19.5"
+"main"
 </pre>
 </div>
 			</td>
