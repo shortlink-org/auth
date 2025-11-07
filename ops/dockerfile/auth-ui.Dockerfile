@@ -39,6 +39,9 @@ ENV NPM_CONFIG_PROGRESS=false
 ENV NPM_CONFIG_AUDIT=false
 ENV NPM_CONFIG_FUND=false
 
+# Set development environment for build (stage can be overridden at runtime)
+ENV NODE_ENV=development
+
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
@@ -69,6 +72,9 @@ FROM ghcr.io/nginxinc/nginx-unprivileged:1.27-alpine AS runtime
 ARG CI_COMMIT_SHA
 ARG CI_COMMIT_TAG
 ARG BUILD_DATE
+
+# Set production environment
+ENV NODE_ENV=production
 
 ###############################################################################
 # OCI labels (single instruction = single layer)
