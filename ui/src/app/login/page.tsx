@@ -55,8 +55,8 @@ const SignIn: NextPage = () => {
 
     // If ?flow=.. was in the URL, we fetch it
     if (flowId) {
-      ory // @ts-expect-error - flowId type mismatch in ory client
-        .getLoginFlow(flowId)
+      ory
+        .getLoginFlow({ id: String(flowId) })
         .then(({ data }) => {
           setFlow(data)
         })
