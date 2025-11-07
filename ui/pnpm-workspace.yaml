@@ -5,4 +5,5 @@ ignoredBuiltDependencies:
   - tldjs
 
 onlyBuiltDependencies:
+  - rollup
   - unrs-resolver
