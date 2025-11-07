@@ -512,6 +512,8 @@ github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20251030220300-1e2beabd
 github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20251030220300-1e2beabd19b6/go.mod h1:H2Cflyv2RCT/udMu/Q4LNi14QaAEPaV7g8rZZ1QAuhc=
 github.com/shortlink-org/go-sdk/grpc v0.0.0-20251020193241-87e94558595e h1:Zj+C3w8UeOemzeCGP04JA1F/jK+pSO/U+aMAH2MbQrs=
 github.com/shortlink-org/go-sdk/grpc v0.0.0-20251020193241-87e94558595e/go.mod h1:AZo/YRf/pD1P4xIf2deY0H+0sgzxQfUQTz6gI7i27is=
+github.com/shortlink-org/go-sdk/grpc v0.0.0-20251104190226-1675eff9fff6 h1:aZW0KruasIqVmz/rc2OUkMTcHAA7SKF2BRVm0lYziZ4=
+github.com/shortlink-org/go-sdk/grpc v0.0.0-20251104190226-1675eff9fff6/go.mod h1:oTpq4ogPjDPPMtoUE6u4Dp7FIYDZEZ9F/ke6h3kLBbc=
 github.com/shortlink-org/go-sdk/logger v0.0.0-20251030220300-1e2beabd19b6 h1:Mt6Pd4kXVM580uo3ZVlWODwWLva8U/cI7BpzujX0CMw=
 github.com/shortlink-org/go-sdk/logger v0.0.0-20251030220300-1e2beabd19b6/go.mod h1:6iQv5CA8MeXDxWXhj5jMPhyEFdlIoSkhb+NZl8flBGI=
 github.com/shortlink-org/shortlink v0.0.0-20251012211939-7b73225f6f5b h1:j9TowQx45EmoxY+W+na/vB16tknnnMIN4FBundVmezI=
