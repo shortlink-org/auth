@@ -288,6 +288,8 @@ github.com/grpc-ecosystem/go-grpc-middleware/providers/prometheus v1.1.0 h1:QGLs
 github.com/grpc-ecosystem/go-grpc-middleware/providers/prometheus v1.1.0/go.mod h1:hM2alZsMUni80N33RBe6J0e423LB+odMj7d3EMP9l20=
 github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.2 h1:sGm2vDRFUrQJO/Veii4h4zG2vvqG6uWNkBHSTqXOZk0=
 github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.2/go.mod h1:wd1YpapPLivG6nQgbf7ZkG1hhSOXDhhn4MLTknx2aAc=
+github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.3 h1:B+8ClL/kCQkRiU82d9xajRPKYMrB7E0MbtzWVi1K4ns=
+github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.3/go.mod h1:NbCUVmiS4foBGBHOYlCT25+YmGpJ32dZPi75pGEUpj4=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.3 h1:NmZ1PKzSTQbuGHw9DGPFomqkkLWMC+vZCkfs+FHv1Vg=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.3/go.mod h1:zQrxl1YP88HQlA6i9c63DSVPFklWpGX4OWAc9bFuaH4=
 github.com/h2non/gock v1.2.0 h1:K6ol8rfrRkUOefooBC8elXoaNGYkpp7y2qcxGG6BzUE=
@@ -449,6 +451,8 @@ github.com/opencontainers/runc v1.2.8 h1:RnEICeDReapbZ5lZEgHvj7E9Q3Eex9toYmaGBsb
 github.com/opencontainers/runc v1.2.8/go.mod h1:cC0YkmZcuvr+rtBZ6T7NBoVbMGNAdLa/21vIElJDOzI=
 github.com/ory/client-go v1.22.7 h1:ZYkE/EG/4m+1USTn8Rc4alJvz8sUSoiZvTrPRRAB8hA=
 github.com/ory/client-go v1.22.7/go.mod h1:o/1hF5MKq3gyn9nUWZF/VVz35nitCzsGfIwl5SXVJ1Y=
+github.com/ory/client-go v1.22.8 h1:v1NCqmKIKFQFYQihWUJuksvxILujvVA8HUOCAs5Lxr0=
+github.com/ory/client-go v1.22.8/go.mod h1:o/1hF5MKq3gyn9nUWZF/VVz35nitCzsGfIwl5SXVJ1Y=
 github.com/ory/dockertest/v3 v3.12.0 h1:3oV9d0sDzlSQfHtIaB5k6ghUCVMVLpAY8hwrqoCyRCw=
 github.com/ory/dockertest/v3 v3.12.0/go.mod h1:aKNDTva3cp8dwOWwb9cWuX84aH5akkxXRvO7KCwWVjE=
 github.com/pelletier/go-toml/v2 v2.2.4 h1:mye9XuhQ6gvn5h28+VilKrrPoQVanw5PMw/TB0t5Ec4=
@@ -506,6 +510,8 @@ github.com/segmentio/encoding v0.5.3/go.mod h1:HS1ZKa3kSN32ZHVZ7ZLPLXWvOVIiZtyJn
 github.com/shopspring/decimal v0.0.0-20180709203117-cd690d0c9e24/go.mod h1:M+9NzErvs504Cn4c5DxATwIqPbtswREoFCre64PpcG4=
 github.com/shortlink-org/go-sdk/auth v0.0.0-20251030220300-1e2beabd19b6 h1:0zzLRM3gXGl24pEqJDKGNL083i+kaVmFLGUOI2NdqJ4=
 github.com/shortlink-org/go-sdk/auth v0.0.0-20251030220300-1e2beabd19b6/go.mod h1:7MMhw31ffeuA6GwY+8ewYTZBQuLaWIHhiNcNh8hdGoI=
+github.com/shortlink-org/go-sdk/auth v0.0.0-20251108145352-f59577605d0a h1:x2P6Oy1zdgkzSPvAoLsyBTcIBEw1212ceIfIB5U5H5g=
+github.com/shortlink-org/go-sdk/auth v0.0.0-20251108145352-f59577605d0a/go.mod h1:6LQpx6YJL7k8qMQDf789xQPzmALgJhcIeckhK15zT7w=
 github.com/shortlink-org/go-sdk/config v0.0.0-20251012191404-6b55f4e23f43 h1:xELyP4BnYnwpdDGMdf+NIcMvxJYDJo6uKkeHs5ymmUw=
 github.com/shortlink-org/go-sdk/config v0.0.0-20251012191404-6b55f4e23f43/go.mod h1:s4JQxd6fLJTVl81mKKe7fPNUqPSoozGRaQu9lQlNjnY=
 github.com/shortlink-org/go-sdk/config v0.0.0-20251104190226-1675eff9fff6 h1:D/bYdhIUpj1Ohi+eDTA3x+FVvNHJkQISJig/PR8BQ7w=
@@ -518,6 +524,8 @@ github.com/shortlink-org/go-sdk/grpc v0.0.0-20251104190226-1675eff9fff6 h1:aZW0K
 github.com/shortlink-org/go-sdk/grpc v0.0.0-20251104190226-1675eff9fff6/go.mod h1:oTpq4ogPjDPPMtoUE6u4Dp7FIYDZEZ9F/ke6h3kLBbc=
 github.com/shortlink-org/go-sdk/logger v0.0.0-20251030220300-1e2beabd19b6 h1:Mt6Pd4kXVM580uo3ZVlWODwWLva8U/cI7BpzujX0CMw=
 github.com/shortlink-org/go-sdk/logger v0.0.0-20251030220300-1e2beabd19b6/go.mod h1:6iQv5CA8MeXDxWXhj5jMPhyEFdlIoSkhb+NZl8flBGI=
+github.com/shortlink-org/go-sdk/logger v0.0.0-20251108103956-0a3cbbf03637 h1:YNn+K4p2pIR/5NeuOOLjRn3oecB7RtdYapDp0a4rmGI=
+github.com/shortlink-org/go-sdk/logger v0.0.0-20251108103956-0a3cbbf03637/go.mod h1:6iQv5CA8MeXDxWXhj5jMPhyEFdlIoSkhb+NZl8flBGI=
 github.com/shortlink-org/shortlink v0.0.0-20251012211939-7b73225f6f5b h1:j9TowQx45EmoxY+W+na/vB16tknnnMIN4FBundVmezI=
 github.com/shortlink-org/shortlink v0.0.0-20251012211939-7b73225f6f5b/go.mod h1:68HRybJTGbxJatXPBV+p2aXkDuhaW5FVnLR/wUhmosk=
 github.com/sirupsen/logrus v1.4.1/go.mod h1:ni0Sbl8bgC9z8RoU9G6nDWqqs/fq4eDPysMBDgk/93Q=
