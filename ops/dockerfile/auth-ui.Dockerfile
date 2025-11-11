@@ -65,7 +65,7 @@ RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
 ########################
 # 2️⃣  Runtime stage
 ########################
-FROM ghcr.io/nginxinc/nginx-unprivileged:1.27-alpine AS runtime
+FROM nginx:1.29-alpine-otel AS runtime
 
 ###############################################################################
 # Build-time args (re-declared so we can inject them into labels)
@@ -110,13 +110,13 @@ COPY ./ops/dockerfile/conf/templates    /etc/nginx/template
 COPY --from=builder /app/out /usr/share/nginx/html
 
 # Ensure correct permissions for the runtime user
-RUN chown -R 101:0 /etc/nginx /usr/share/nginx/html
+RUN chown -R nginx:nginx /etc/nginx /usr/share/nginx/html
 
 ###############################################################################
 # Health-check, port & runtime user
 ###############################################################################
-# Use the image's built-in non-root user (UID 101)
-USER 101
+# Use the image's built-in nginx user
+USER nginx
 
 HEALTHCHECK --interval=5s --timeout=5s --retries=3 \
   CMD curl -f http://localhost:8080/ || exit 1
