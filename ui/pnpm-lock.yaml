@@ -28,10 +28,10 @@ importers:
         version: 7.3.5(@emotion/cache@11.14.0)(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(next@16.0.1(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
       '@ory/client':
         specifier: ^1.22.8
-        version: 1.22.8
+        version: 1.22.9
       '@ory/integrations':
         specifier: ^1.3.1
-        version: 1.3.1(@ory/client@1.22.8)(next@16.0.1(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))
+        version: 1.3.1(@ory/client@1.22.9)(next@16.0.1(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))
       '@shortlink-org/ui-kit':
         specifier: 0.20251108.194809
         version: 0.20251108.194809(@babel/core@7.28.5)(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@mui/system@7.3.5(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@opentelemetry/api@1.9.0)(@types/node@24.10.0)(babel-plugin-react-compiler@1.0.0)(postcss@8.5.6)(rollup@4.53.2)(typescript@5.9.3)(vite@7.1.2(@types/node@24.10.0)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.1))
@@ -998,8 +998,8 @@ packages:
     resolution: {integrity: sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg==}
     engines: {node: '>=8.0.0'}
 
-  '@ory/client@1.22.8':
-    resolution: {integrity: sha512-RApdxXmyB0Nafi2PoNeK9CpkocqUfXjFg4+J+e+8FEFBsPPHGwbaaE/VPcQbL3bA9DbFBThP/VJ4tpM9xJvJtw==}
+  '@ory/client@1.22.9':
+    resolution: {integrity: sha512-5144G9U/geTyP1nu1M/shnVEsb24k2/BmCy+Jy7uo03lOuVXipWau1/lG3xNkdmUSi1bmzdL6UWFj8OC7Nqatw==}
 
   '@ory/integrations@1.3.1':
     resolution: {integrity: sha512-lh5YdpIJVLG76G5NUgvMuxsl81ep/W98ImJwOQkVIOzSFeWVMxZI0Xpndvche7TSE8MWqtrb0xfWXTV05uEezQ==}
@@ -4282,15 +4282,15 @@ snapshots:
 
   '@opentelemetry/api@1.9.0': {}
 
-  '@ory/client@1.22.8':
+  '@ory/client@1.22.9':
     dependencies:
       axios: 1.13.2
     transitivePeerDependencies:
       - debug
 
-  '@ory/integrations@1.3.1(@ory/client@1.22.8)(next@16.0.1(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))':
+  '@ory/integrations@1.3.1(@ory/client@1.22.9)(next@16.0.1(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))':
     dependencies:
-      '@ory/client': 1.22.8
+      '@ory/client': 1.22.9
       '@types/tldjs': 2.3.4
       cookie: 1.0.2
       istextorbinary: 9.5.0
