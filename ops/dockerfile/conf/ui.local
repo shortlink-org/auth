@@ -5,6 +5,10 @@ server {
     absolute_redirect off;
     port_in_redirect off;
 
+    location ~ ^/(.*)/$ {
+        try_files /$1.html =404;
+    }
+
     gzip on;
     gzip_proxied any;
     gzip_comp_level 4;
@@ -16,11 +20,8 @@ server {
         try_files $uri $uri/;
     }
 
-    location ~ ^/(.*)/$ {
-        try_files /$1.html =404;
-    }
-
     location / {
+        otel_trace_sample_ratio $adaptive_sample;
         try_files $uri.html $uri $uri/ @htmlext;
     }
 

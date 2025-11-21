@@ -35,6 +35,9 @@ deploy:
 
   imagePullSecrets: []
 
+  env:
+    OTEL_EXPORTER_OTLP_ENDPOINT: http://grafana-tempo.grafana:4317
+
   resources:
     limits:
       cpu: 100m
