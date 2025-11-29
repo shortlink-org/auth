@@ -7,10 +7,10 @@ require (
 	github.com/google/wire v0.7.0
 	github.com/ory/dockertest/v3 v3.12.0
 	github.com/shortlink-org/go-sdk/auth v0.0.0-20251108145352-f59577605d0a
-	github.com/shortlink-org/go-sdk/config v0.0.0-20251104190226-1675eff9fff6
+	github.com/shortlink-org/go-sdk/config v0.0.0-20251121191713-160ea5dd70ad
 	github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20251030220300-1e2beabd19b6
 	github.com/shortlink-org/go-sdk/grpc v0.0.0-20251104190226-1675eff9fff6
-	github.com/shortlink-org/go-sdk/logger v0.0.0-20251108203914-f363e5ad1155
+	github.com/shortlink-org/go-sdk/logger v0.0.0-20251129073658-427de32d0a14
 	github.com/shortlink-org/shortlink v0.0.0-20251012211939-7b73225f6f5b
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.11.1
@@ -127,7 +127,7 @@ require (
 	github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 // indirect
 	go.mongodb.org/mongo-driver v1.17.2 // indirect
 	go.mongodb.org/mongo-driver/v2 v2.3.0 // indirect
-	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
+	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.63.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.63.0 // indirect
 	go.opentelemetry.io/otel v1.38.0 // indirect
