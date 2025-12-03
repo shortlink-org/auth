@@ -36,7 +36,7 @@ importers:
         specifier: 0.20251108.194809
         version: 0.20251108.194809(@babel/core@7.28.5)(@emotion/react@11.14.0(@types/react@19.2.6)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.6)(react@19.2.0))(@types/react@19.2.6)(react@19.2.0))(@mui/system@7.3.5(@emotion/react@11.14.0(@types/react@19.2.6)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.6)(react@19.2.0))(@types/react@19.2.6)(react@19.2.0))(@types/react@19.2.6)(react@19.2.0))(@opentelemetry/api@1.9.0)(@types/node@24.10.1)(babel-plugin-react-compiler@1.0.0)(postcss@8.5.6)(rollup@4.53.3)(typescript@5.9.3)(vite@7.1.2(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.1))
       axios:
-        specifier: ^1.13.2
+        specifier: ^1.11.0
         version: 1.13.2
       babel-plugin-react-compiler:
         specifier: ^1.0.0
@@ -2731,6 +2731,7 @@ packages:
   next@16.0.3:
     resolution: {integrity: sha512-Ka0/iNBblPFcIubTA1Jjh6gvwqfjrGq1Y2MTI5lbjeLIAfmC+p5bQmojpRZqgHHVu5cG4+qdIiwXiBSm/8lZ3w==}
     engines: {node: '>=20.9.0'}
+    deprecated: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/CVE-2025-66478 for more details.
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
