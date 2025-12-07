@@ -8,7 +8,8 @@ serviceAccount:
   create: true
 
 # ==============================================================================
-# TODO: Setting route
+# Ingress configuration (Istio VirtualService)
+# To use HTTPRoute instead, set ingress.enabled: false and httpRoute.enabled: true
 ingress:
   enabled: true
   # type ingress-controller: istio, cilium, nginx
@@ -28,6 +29,70 @@ ingress:
       destination:
         host: shortlink
         port: 50051
+
+# ==============================================================================
+# HTTPRoute configuration (Gateway API)
+# Gateway API HTTPRoute provides a more flexible and standardized way to configure routing
+# Istio natively supports Gateway API, making this the recommended approach for new deployments
+# To use this, set ingress.enabled: false and httpRoute.enabled: true
+httpRoute:
+  enabled: false
+  annotations: {}
+  # Reference to the Gateway resource that will handle this route
+  parentRefs:
+    - name: istio-gateway
+      namespace: istio-system
+      # sectionName: grpc  # Optional: specific listener name
+  # Routing rules for gRPC services
+  rules:
+    # Route for SchemaService
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /authzed.api.v1.SchemaService/
+      backendRefs:
+        - name: shortlink
+          port: 50051
+          weight: 100
+      timeouts:
+        request: 10s
+        backendRequest: 2s
+    # Route for PermissionsService
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /authzed.api.v1.PermissionsService/
+      backendRefs:
+        - name: shortlink
+          port: 50051
+          weight: 100
+      timeouts:
+        request: 10s
+        backendRequest: 2s
+    # Route for WatchService
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /authzed.api.v1.WatchService/
+      backendRefs:
+        - name: shortlink
+          port: 50051
+          weight: 100
+      timeouts:
+        request: 10s
+        backendRequest: 2s
+    # Route for ExperimentalService
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /authzed.api.v1.ExperimentalService/
+      backendRefs:
+        - name: shortlink
+          port: 50051
+          weight: 100
+      timeouts:
+        request: 10s
+        backendRequest: 2s
 
 # ==============================================================================
 deploy:

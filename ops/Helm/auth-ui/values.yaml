@@ -8,6 +8,8 @@ serviceAccount:
   create: true
 
 # ==============================================================================
+# Ingress configuration (traditional Ingress resource)
+# To use HTTPRoute instead, set ingress.enabled: false and httpRoute.enabled: true
 ingress:
   enabled: true
   ingressClassName: nginx
@@ -29,6 +31,41 @@ ingress:
     - secretName: landing-tls
       hosts:
         - shortlink.best
+
+# ==============================================================================
+# HTTPRoute configuration (Gateway API)
+# Gateway API HTTPRoute provides a more flexible and standardized way to configure routing
+# To use this, set ingress.enabled: false and httpRoute.enabled: true
+httpRoute:
+  enabled: false
+  annotations: {}
+  # Reference to the Gateway resource that will handle this route
+  parentRefs:
+    - name: nginx-gateway
+      namespace: nginx-gateway
+      # sectionName: http  # Optional: specific listener name
+  # Hostnames that this HTTPRoute should match
+  hostnames:
+    - shortlink.best
+  # Routing rules
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /auth
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: shortlink-auth-ui
+          port: 8080
+          weight: 100
+      timeouts:
+        request: 30s
+        backendRequest: 10s
 
 deploy:
   replicaCount: 1
