@@ -1,4 +1,4 @@
-{{/* vim: set filetype=mustache: */}}
+{{/* vim: set filetype=gotmpl: */}}
 
 {{- if and .Values.httpRoute .Values.httpRoute.enabled }}
 ---
