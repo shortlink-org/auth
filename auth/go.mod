@@ -11,7 +11,7 @@ require (
 	github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20251030220300-1e2beabd19b6
 	github.com/shortlink-org/go-sdk/grpc v0.0.0-20251104190226-1675eff9fff6
 	github.com/shortlink-org/go-sdk/logger e726ce36c641
-	github.com/shortlink-org/shortlink v0.0.0-20251012211939-7b73225f6f5b
+	github.com/shortlink-org/shortlink 8c50653523d9
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel/trace v1.38.0
