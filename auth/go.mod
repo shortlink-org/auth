@@ -10,7 +10,7 @@ require (
 	github.com/shortlink-org/go-sdk/auth v0.0.0-20260107221026-35ca43bf00e9
 	github.com/shortlink-org/go-sdk/config v0.0.0-20260107221026-35ca43bf00e9
 	github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20260107221026-35ca43bf00e9
-	github.com/shortlink-org/go-sdk/grpc v0.0.0-20260107221026-35ca43bf00e9
+	github.com/shortlink-org/go-sdk/grpc 70eee7409da1
 	github.com/shortlink-org/go-sdk/logger v0.0.0-20260107221026-35ca43bf00e9
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.11.1
