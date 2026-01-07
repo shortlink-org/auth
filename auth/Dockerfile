@@ -67,7 +67,7 @@ LABEL org.opencontainers.image.authors="Login Viktor @batazor"
 LABEL org.opencontainers.image.vendor="Login Viktor @batazor"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.url="http://shortlink.best/"
-LABEL org.opencontainers.image.source="https://github.com/shortlink-org/shortlink"
+LABEL org.opencontainers.image.source="https://github.com/shortlink-org/auth"
 LABEL org.opencontainers.image.revision=${CI_COMMIT_TAG}
 
 # Define GOTRACEBACK to mark this container AS using the Go language runtime

@@ -84,7 +84,7 @@ LABEL \
   org.opencontainers.image.title="auth-ui" \
   org.opencontainers.image.description="Shortlink auth UI" \
   org.opencontainers.image.url="https://shortlink.best/auth/login" \
-  org.opencontainers.image.source="https://github.com/shortlink-org/shortlink" \
+  org.opencontainers.image.source="https://github.com/shortlink-org/auth" \
   org.opencontainers.image.licenses="MIT" \
   org.opencontainers.image.vendor="Shortlink" \
   org.opencontainers.image.authors="Viktor Login <batazor111@gmail.com>" \
