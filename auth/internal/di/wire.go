@@ -9,15 +9,16 @@ Auth Service DI-package
 package auth_di
 
 import (
+	"context"
+
 	"github.com/authzed/authzed-go/v1"
 	"github.com/google/wire"
+	"github.com/prometheus/client_golang/prometheus"
+	"go.opentelemetry.io/otel/metric"
 	"go.opentelemetry.io/otel/trace"
 
 	"github.com/shortlink-org/go-sdk/config"
 	"github.com/shortlink-org/go-sdk/logger"
-	"github.com/shortlink-org/shortlink/pkg/di"
-	"github.com/shortlink-org/shortlink/pkg/di/pkg/profiling"
-	"github.com/shortlink-org/shortlink/pkg/observability/metrics"
 
 	permission_client "github.com/shortlink-org/auth/auth/internal/di/pkg/permission"
 	"github.com/shortlink-org/auth/auth/internal/services/permission"
@@ -29,9 +30,9 @@ type AuthService struct {
 	Config *config.Config
 
 	// Observability
-	Tracer        trace.TracerProvider
-	Metrics       *metrics.Monitoring
-	PprofEndpoint profiling.PprofEndpoint
+	Tracer     trace.TracerProvider
+	Prometheus *prometheus.Registry
+	Metrics    metric.Meter
 
 	// Security
 	authPermission *authzed.Client
@@ -42,7 +43,19 @@ type AuthService struct {
 
 // AuthService =========================================================================================================
 var AuthSet = wire.NewSet(
-	di.DefaultSet,
+	// Context
+	context.Background,
+
+	// Config and Logger from go-sdk
+	config.New,
+	logger.New,
+
+	// Observability - native components
+	NewPrometheusRegistry,
+	NewTracer,
+	NewMeter,
+
+	// Auth client
 	permission_client.New,
 
 	// Application
@@ -51,15 +64,30 @@ var AuthSet = wire.NewSet(
 	NewAuthService,
 )
 
+// NewPrometheusRegistry creates a new Prometheus registry
+func NewPrometheusRegistry() *prometheus.Registry {
+	return prometheus.NewRegistry()
+}
+
+// NewTracer creates a trace provider (stub for now, can be extended)
+func NewTracer() trace.TracerProvider {
+	return trace.NewNoopTracerProvider()
+}
+
+// NewMeter creates a meter (stub for now, can be extended)
+func NewMeter() metric.Meter {
+	return nil
+}
+
 func NewAuthService(
 	// Common
 	log logger.Logger,
 	config *config.Config,
 
 	// Observability
-	metrics *metrics.Monitoring,
+	prometheus *prometheus.Registry,
 	tracer trace.TracerProvider,
-	pprofHTTP profiling.PprofEndpoint,
+	meter metric.Meter,
 
 	// Security
 	authPermission *authzed.Client,
@@ -73,9 +101,9 @@ func NewAuthService(
 		Config: config,
 
 		// Observability
-		Tracer:        tracer,
-		Metrics:       metrics,
-		PprofEndpoint: pprofHTTP,
+		Tracer:     tracer,
+		Prometheus: prometheus,
+		Metrics:    meter,
 
 		// Jobs
 		authPermission: authPermission,

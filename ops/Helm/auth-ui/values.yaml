@@ -8,27 +8,22 @@ serviceAccount:
   create: true
 
 # ==============================================================================
-ingress:
+# HTTPRoute configuration for Gateway API
+httpRoute:
   enabled: true
-  ingressClassName: nginx
-  annotations:
-    cert-manager.io/cluster-issuer: cert-manager-production
-    nginx.ingress.kubernetes.io/enable-owasp-core-rules: "true"
-    nginx.ingress.kubernetes.io/enable-opentelemetry: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/use-regex: "true"
-
-  hostname: shortlink.best
-  paths:
-    - path: /auth(/|$)(.*)
-      service:
-        name: shortlink-auth-ui
-        port: 8080
-
-  tls:
-    - secretName: landing-tls
-      hosts:
-        - shortlink.best
+  # Gateway reference
+  gatewayName: external-gateway
+  gatewayNamespace: istio-ingress
+  
+  # Hostnames for routing
+  hostnames:
+    - shortlink.best
+  
+  # Path prefix for auth UI
+  path: /auth
+  
+  # Backend service port (defaults to first public service port if not specified)
+  port: 8080
 
 deploy:
   replicaCount: 1

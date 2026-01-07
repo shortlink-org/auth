@@ -8,26 +8,23 @@ serviceAccount:
   create: true
 
 # ==============================================================================
-# TODO: Setting route
-ingress:
+# HTTPRoute configuration for Gateway API
+# Note: For gRPC services, consider using GRPCRoute instead of HTTPRoute
+httpRoute:
   enabled: true
-  # type ingress-controller: istio, cilium, nginx
-  ingressClassName: istio
-  namespace: spicedb-operator
-  istio:
-    match:
-      - uri:
-          prefix: /authzed.api.v1.SchemaService/
-      - uri:
-          prefix: /authzed.api.v1.PermissionsService/
-      - uri:
-          prefix: /authzed.api.v1.WatchService/
-      - uri:
-          prefix: /authzed.api.v1.ExperimentalService/
-    route:
-      destination:
-        host: shortlink
-        port: 50051
+  # Gateway reference
+  gatewayName: external-gateway
+  gatewayNamespace: istio-ingress
+  
+  # Multiple path prefixes for gRPC service methods
+  paths:
+    - /authzed.api.v1.SchemaService/
+    - /authzed.api.v1.PermissionsService/
+    - /authzed.api.v1.WatchService/
+    - /authzed.api.v1.ExperimentalService/
+  
+  # Backend service port (gRPC port)
+  port: 50051
 
 # ==============================================================================
 deploy:
