@@ -9,19 +9,23 @@ Auth Service DI-package
 package auth_di
 
 import (
-	"context"
-
 	"github.com/authzed/authzed-go/v1"
 	"github.com/google/wire"
-	"github.com/prometheus/client_golang/prometheus"
+	shortctx "github.com/shortlink-org/go-sdk/context"
+	"github.com/shortlink-org/go-sdk/flags"
+	"github.com/shortlink-org/go-sdk/flight_trace"
+	"github.com/shortlink-org/go-sdk/logger"
+	"github.com/shortlink-org/go-sdk/observability/tracing"
 	"go.opentelemetry.io/otel/metric"
+	api "go.opentelemetry.io/otel/sdk/metric"
 	"go.opentelemetry.io/otel/trace"
 
+	"github.com/shortlink-org/go-sdk/auth/permission"
 	"github.com/shortlink-org/go-sdk/config"
-	"github.com/shortlink-org/go-sdk/logger"
+	"github.com/shortlink-org/go-sdk/observability/metrics"
+	"github.com/shortlink-org/go-sdk/observability/profiling"
 
-	permission_client "github.com/shortlink-org/auth/auth/internal/di/pkg/permission"
-	"github.com/shortlink-org/auth/auth/internal/services/permission"
+	permission_service "github.com/shortlink-org/auth/auth/internal/services/permission"
 )
 
 type AuthService struct {
@@ -30,54 +34,43 @@ type AuthService struct {
 	Config *config.Config
 
 	// Observability
-	Tracer     trace.TracerProvider
-	Prometheus *prometheus.Registry
-	Metrics    metric.Meter
+	Tracer        trace.TracerProvider
+	Metrics       *metrics.Monitoring
+	PprofEndpoint profiling.PprofEndpoint
+	FlightTrace   *flight_trace.Recorder
 
 	// Security
 	authPermission *authzed.Client
 
 	// Application
-	permissionService *permission.Service
+	permissionService *permission_service.Service
 }
+
+// DefaultSet ==========================================================================================================
+var DefaultSet = wire.NewSet(
+	shortctx.New,
+	flags.New,
+	config.New,
+	logger.NewDefault,
+	tracing.New,
+	metrics.New,
+	profiling.New,
+	flight_trace.New,
+)
 
 // AuthService =========================================================================================================
 var AuthSet = wire.NewSet(
-	// Context
-	context.Background,
-
-	// Config and Logger from go-sdk
-	config.New,
-	logger.New,
-
-	// Observability - native components
-	NewPrometheusRegistry,
-	NewTracer,
-	NewMeter,
-
-	// Auth client
-	permission_client.New,
+	// Common
+	DefaultSet,
+	permission.New,
+	wire.FieldsOf(new(*metrics.Monitoring), "Prometheus", "Metrics"),
+	wire.Bind(new(metric.MeterProvider), new(*api.MeterProvider)),
 
 	// Application
-	permission.New,
+	permission_service.New,
 
 	NewAuthService,
 )
-
-// NewPrometheusRegistry creates a new Prometheus registry
-func NewPrometheusRegistry() *prometheus.Registry {
-	return prometheus.NewRegistry()
-}
-
-// NewTracer creates a trace provider (stub for now, can be extended)
-func NewTracer() trace.TracerProvider {
-	return trace.NewNoopTracerProvider()
-}
-
-// NewMeter creates a meter (stub for now, can be extended)
-func NewMeter() metric.Meter {
-	return nil
-}
 
 func NewAuthService(
 	// Common
@@ -85,15 +78,16 @@ func NewAuthService(
 	config *config.Config,
 
 	// Observability
-	prometheus *prometheus.Registry,
+	metrics *metrics.Monitoring,
 	tracer trace.TracerProvider,
-	meter metric.Meter,
+	pprofHTTP profiling.PprofEndpoint,
+	flightTrace *flight_trace.Recorder,
 
 	// Security
 	authPermission *authzed.Client,
 
 	// Application
-	permissionService *permission.Service,
+	permissionService *permission_service.Service,
 ) (*AuthService, error) {
 	return &AuthService{
 		// Common
@@ -101,11 +95,12 @@ func NewAuthService(
 		Config: config,
 
 		// Observability
-		Tracer:     tracer,
-		Prometheus: prometheus,
-		Metrics:    meter,
+		Tracer:        tracer,
+		Metrics:       metrics,
+		PprofEndpoint: pprofHTTP,
+		FlightTrace:   flightTrace,
 
-		// Jobs
+		// Security
 		authPermission: authPermission,
 
 		// Application
