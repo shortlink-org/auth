@@ -118,22 +118,31 @@ const SignIn: NextPage = () => {
     <>
       {/*<NextSeo title="Login" description="Login to your account" />*/}
 
-      <div className="flex h-full p-4 rotate">
-        <div className="sm:max-w-xl md:max-w-3xl w-full m-auto">
-          <div className="flex items-stretch bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden border-t-4 border-indigo-500 sm:border-0">
+      <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="w-full max-w-4xl animate-fade-in">
+          <div className="flex flex-col sm:flex-row items-stretch overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-2xl">
+            {/* Top/Left side - Image panel */}
             <div
-              className="flex hidden overflow-hidden relative sm:block w-4/12 md:w-5/12 bg-gray-600 text-gray-300 py-4 bg-cover bg-center"
+              className="relative overflow-hidden bg-cover bg-center w-full sm:w-5/12 min-h-[200px] sm:min-h-full"
               style={{
                 backgroundImage:
                   "url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80')",
               }}
             >
-              <div className="flex-1 absolute bottom-0 text-white p-10">
-                <h3 className="text-4xl font-bold inline-block">Login</h3>
-                <p className="text-gray-500 whitespace-no-wrap">Welcome back!</p>
+              {/* Light overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              
+              {/* Content */}
+              <div className="relative z-10 flex flex-col justify-end p-6 sm:p-10 text-white w-full h-full animate-slide-in-left">
+                <div>
+                  <h3 className="text-3xl sm:text-4xl font-bold mb-2 drop-shadow-lg">Login</h3>
+                  <p className="text-sm sm:text-base text-gray-400 drop-shadow">Welcome back!</p>
+                </div>
               </div>
+              
+              {/* Decorative SVG - only on desktop */}
               <svg
-                className="absolute animate h-full w-4/12 sm:w-2/12 right-0 inset-y-0 fill-current text-white"
+                className="hidden sm:block absolute right-0 inset-y-0 h-full w-16 fill-current text-white z-10"
                 viewBox="0 0 100 100"
                 xmlns="http://www.w3.org/2000/svg"
                 preserveAspectRatio="none"
@@ -142,25 +151,33 @@ const SignIn: NextPage = () => {
               </svg>
             </div>
 
-            <div className="flex-1 p-6 sm:p-10 sm:py-12">
-              <h3 className="text-xl text-gray-700 font-bold mb-6">
-                Login <span className="text-gray-400 font-light">to your account</span>
-              </h3>
+            {/* Bottom/Right side - Form */}
+            <div className="flex-1 p-6 sm:p-12 animate-slide-in-right">
+              <div className="max-w-md mx-auto">
+                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                  Sign In
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  to your account
+                </p>
 
-              <Flow key="login" onSubmit={onSubmit} flow={flow} />
+                <Flow key="login" onSubmit={onSubmit} flow={flow} />
 
-              <div className="flex items-center justify-between">
-                <Link href="/forgot">
-                  <p className="cursor-pointer no-underline hover:underline mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+                  <Link 
+                    href="/forgot"
+                    className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors duration-200 hover:underline"
+                  >
                     Forgot password?
-                  </p>
-                </Link>
+                  </Link>
 
-                <Link href="/registration">
-                  <p className="cursor-pointer no-underline hover:underline mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                    Don&apos;t have an account? Sign Up
-                  </p>
-                </Link>
+                  <Link 
+                    href="/registration"
+                    className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors duration-200 hover:underline"
+                  >
+                    Don&apos;t have an account?
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -170,10 +187,21 @@ const SignIn: NextPage = () => {
   )
 }
 
-const LoginWrapper: NextPage = () => (
-  <Suspense fallback={<div>Loading...</div>}>
-    <SignIn />
-  </Suspense>
-)
+const LoginWrapper: NextPage = () => {
+  const { FormSkeleton } = require('@/components/ui/LoadingSkeleton')
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950">
+        <div className="w-full max-w-md">
+          <div className="rounded-2xl bg-white dark:bg-gray-800 shadow-2xl p-8 border border-gray-100 dark:border-gray-700">
+            <FormSkeleton />
+          </div>
+        </div>
+      </div>
+    }>
+      <SignIn />
+    </Suspense>
+  )
+}
 
 export default LoginWrapper

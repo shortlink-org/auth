@@ -101,26 +101,33 @@ const SignUpContent: React.FC = () => {
     [flow, router]
   )
 
-  if (!flow) return null
-
   return (
     <>
-      <div className="flex h-full p-4 rotate">
-        <div className="w-full m-auto sm:max-w-xl md:max-w-3xl">
-          <div className="flex items-stretch overflow-hidden rounded-lg bg-white shadow-lg dark:bg-gray-800 border-t-4 border-indigo-500 sm:border-0">
+      <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="w-full max-w-4xl animate-fade-in">
+          <div className="flex flex-col sm:flex-row items-stretch overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-2xl">
+            {/* Top/Left side - Image panel */}
             <div
-              className="relative hidden w-4/12 bg-gray-600 py-4 text-gray-300 sm:block md:w-5/12 bg-cover bg-center"
+              className="relative overflow-hidden bg-cover bg-center w-full sm:w-5/12 min-h-[200px] sm:min-h-full"
               style={{
                 backgroundImage:
                   "url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80')",
               }}
             >
-              <div className="absolute bottom-0 flex-1 p-10 text-white">
-                <h3 className="inline-block text-4xl font-bold">Register</h3>
-                <p className="whitespace-nowrap text-gray-500">Signup for an Account</p>
+              {/* Light overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              
+              {/* Content */}
+              <div className="relative z-10 flex flex-col justify-end p-6 sm:p-10 text-white w-full h-full animate-slide-in-left">
+                <div>
+                  <h3 className="text-3xl sm:text-4xl font-bold mb-2 drop-shadow-lg">Register</h3>
+                  <p className="text-sm sm:text-base text-gray-400 drop-shadow">Signup for an Account</p>
+                </div>
               </div>
+              
+              {/* Decorative SVG - only on desktop */}
               <svg
-                className="absolute inset-y-0 right-0 h-full w-4/12 fill-current text-white sm:w-2/12"
+                className="hidden sm:block absolute right-0 inset-y-0 h-full w-16 fill-current text-white z-10"
                 viewBox="0 0 100 100"
                 xmlns="http://www.w3.org/2000/svg"
                 preserveAspectRatio="none"
@@ -129,19 +136,34 @@ const SignUpContent: React.FC = () => {
               </svg>
             </div>
 
-            <div className="flex-1 p-6 sm:p-10 sm:py-12">
-              <h3 className="mb-6 text-xl font-bold text-gray-700">
-                Register <span className="font-light text-gray-400">for an account</span>
-              </h3>
+            {/* Bottom/Right side - Form */}
+            <div className="flex-1 p-6 sm:p-12 animate-slide-in-right">
+              <div className="max-w-md mx-auto">
+                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                  Create Account
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  Get started for free
+                </p>
 
-              <Flow<UpdateRegistrationFlowBody> onSubmit={onSubmit} flow={flow} />
+                {flow ? (
+                  <Flow<UpdateRegistrationFlowBody> onSubmit={onSubmit} flow={flow} />
+                ) : (
+                  <div className="space-y-4 animate-pulse">
+                    <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg" />
+                    <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg" />
+                    <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg" />
+                  </div>
+                )}
 
-              <div className="flex justify-end">
-                <Link href="/login" className="no-underline">
-                  <p className="mt-4 cursor-pointer text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:underline">
-                    Already have an account? Log in
-                  </p>
-                </Link>
+                <div className="mt-6 flex justify-center text-sm">
+                  <Link 
+                    href="/login" 
+                    className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors duration-200 hover:underline"
+                  >
+                    Already have an account? Sign In
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -151,10 +173,21 @@ const SignUpContent: React.FC = () => {
   )
 }
 
-const SignUp: NextPage = () => (
-  <Suspense fallback={<div>Loading...</div>}>
-    <SignUpContent />
-  </Suspense>
-)
+const SignUp: NextPage = () => {
+  const { FormSkeleton } = require('@/components/ui/LoadingSkeleton')
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="w-full max-w-md">
+          <div className="rounded-2xl bg-white dark:bg-gray-800 shadow-2xl p-8 border border-gray-100 dark:border-gray-700">
+            <FormSkeleton />
+          </div>
+        </div>
+      </div>
+    }>
+      <SignUpContent />
+    </Suspense>
+  )
+}
 
 export default SignUp

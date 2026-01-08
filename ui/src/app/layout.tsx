@@ -6,6 +6,8 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 
 import theme from '../theme'
+import { ThemeToggle } from '@/components/ThemeToggle'
+import { ToastProvider } from '@/components/ui/ToastProvider'
 import './globals.css'
 
 const roboto = Roboto({
@@ -42,7 +44,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
             <ThemeProvider theme={theme}>
               <CssBaseline />
+              <ThemeToggle />
               {children}
+              <ToastProvider />
             </ThemeProvider>
           </NextThemesProvider>
         </AppRouterCacheProvider>

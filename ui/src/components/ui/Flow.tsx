@@ -26,6 +26,7 @@ import React, {
 
 import { Messages } from './Messages'
 import { Node } from './Node'
+import { showToast } from '@/lib/toast'
 
 export type Values = Partial<
     | UpdateLoginFlowBody
@@ -74,6 +75,7 @@ export function Flow<T extends Values>({
 
     const [values, setValues] = useState<T>({} as T)
     const [isLoading, setIsLoading] = useState(false)
+    const [hasError, setHasError] = useState(false)
 
     // Track which submit control was clicked to ensure its name/value is included.
     const [submitter, setSubmitter] = useState<{ name: string; value: string } | null>(
@@ -90,6 +92,15 @@ export function Flow<T extends Values>({
     // (Re)initialize controlled values when nodes change.
     useEffect(() => {
         setValues(buildInitialValues<T>(nodes))
+        // Check if there are any error messages
+        const hasErrors = nodes.some(node => 
+            node.messages?.some(msg => msg.type === 'error')
+        )
+        if (hasErrors) {
+            setHasError(true)
+            // Reset after animation
+            setTimeout(() => setHasError(false), 500)
+        }
     }, [nodes])
 
     // Capture which submit element was clicked (button or input[type=submit])
@@ -132,6 +143,12 @@ export function Flow<T extends Values>({
             try {
                 setIsLoading(true)
                 await onSubmit(body)
+            } catch (error) {
+                // Show error toast
+                showToast.error('An error occurred. Please try again.')
+                // Trigger shake animation
+                setHasError(true)
+                setTimeout(() => setHasError(false), 500)
             } finally {
                 setIsLoading(false)
                 setSubmitter(null)
@@ -140,10 +157,16 @@ export function Flow<T extends Values>({
         [isLoading, onSubmit, submitter, values],
     )
 
-    if (!flow?.ui) {
-        // Lightweight placeholder while the flow is being fetched
-        return <div aria-busy="true">Loading…</div>
-    }
+  if (!flow?.ui) {
+    // Lightweight placeholder while the flow is being fetched
+    return (
+      <div className="space-y-4 animate-pulse" aria-busy="true">
+        <div className="h-14 bg-gray-200 dark:bg-gray-700 rounded-lg" />
+        <div className="h-14 bg-gray-200 dark:bg-gray-700 rounded-lg" />
+        <div className="h-12 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-lg" />
+      </div>
+    )
+  }
 
     return (
         <form
@@ -153,6 +176,7 @@ export function Flow<T extends Values>({
             method={flow.ui.method}
             onSubmit={handleSubmit}
             onClickCapture={handleClickCapture}
+            className={hasError ? 'animate-shake' : ''}
         >
             {!hideGlobalMessages && <Messages messages={flow.ui.messages ?? []} />}
 

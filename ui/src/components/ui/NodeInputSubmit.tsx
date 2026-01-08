@@ -10,9 +10,10 @@ export function NodeInputSubmit({ node, attributes, disabled }: NodeInputProps) 
       variant="contained"
       color="primary"
       type="submit"
-      className="bg-sky-600 hover:bg-sky-700"
+      fullWidth
       value={attributes.value || ''}
       disabled={attributes.disabled || disabled}
+      className="!py-3 !px-6 !rounded-lg !font-semibold !text-base !normal-case !shadow-lg hover:!shadow-xl !transition-all !duration-200 disabled:!opacity-50 disabled:!cursor-not-allowed !bg-gradient-to-r !from-indigo-600 !to-purple-600 hover:!from-indigo-700 hover:!to-purple-700"
     >
       {getNodeLabel(node)}
     </Button>
