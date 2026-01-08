@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
   },
   bundlePagesRouterDependencies: true,
   
+  // Allow cross-origin requests from localhost and 127.0.0.1 during development
+  allowedDevOrigins: ['127.0.0.1', 'localhost'],
+  
   // Enable React Compiler for improved performance
   reactCompiler: true,
   
@@ -33,9 +36,6 @@ const nextConfig: NextConfig = {
   
     // Forward browser logs to the terminal for easier debugging
     browserDebugInfoInTerminal: true,
-  
-    // Activate new client-side router improvements
-    clientSegmentCache: true,
   
     // Enable support for `global-not-found`
     globalNotFound: true,
