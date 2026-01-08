@@ -5,10 +5,6 @@ server {
     absolute_redirect off;
     port_in_redirect off;
 
-    location ~ ^/(.*)/$ {
-        try_files /$1.html =404;
-    }
-
     gzip on;
     gzip_proxied any;
     gzip_comp_level 4;
@@ -16,23 +12,7 @@ server {
 
     root   /usr/share/nginx/html;
 
-    location ~* \.(?:ico|gif|jpe?g|png|woff2?|eot|otf|ttf|svg|js|css)$ {
-        try_files $uri $uri/;
-    }
-
-    location / {
-        otel_trace_sample_ratio $adaptive_sample;
-        try_files $uri.html $uri $uri/ @htmlext;
-    }
-
-    location ~ \.html$ {
-        try_files $uri =404;
-    }
-
-    location @htmlext {
-        rewrite ^(.*)$ $1.html last;
-    }
-
+    # Health check endpoints
     location = /live {
         access_log off;
         default_type application/json;
@@ -43,5 +23,33 @@ server {
         access_log off;
         default_type application/json;
         return 200 '{"status":"ready"}';
+    }
+
+    # Static assets (from _next directory and public files)
+    location ~* \.(?:ico|gif|jpe?g|png|woff2?|eot|otf|ttf|svg|js|css)$ {
+        try_files $uri =404;
+    }
+
+    # Handle /auth prefix - strip it and serve from root
+    location /auth/ {
+        otel_trace_sample_ratio $adaptive_sample;
+        
+        # Strip /auth prefix
+        rewrite ^/auth/(.*)$ /$1 break;
+        
+        # Try to serve the file with .html extension first, then without, then directory index
+        try_files $uri.html $uri $uri/ $uri/index.html =404;
+    }
+
+    # Handle /auth without trailing slash
+    location = /auth {
+        otel_trace_sample_ratio $adaptive_sample;
+        try_files /index.html =404;
+    }
+
+    # Fallback for root-level requests (should not normally hit this if /auth basePath is used)
+    location / {
+        otel_trace_sample_ratio $adaptive_sample;
+        try_files $uri.html $uri $uri/ $uri/index.html =404;
     }
 }
