@@ -25,8 +25,19 @@ server {
         return 200 '{"status":"ready"}';
     }
 
+    # Next.js static assets - must be before /auth/ location
+    # HTTPRoute passes full path /auth/_next/..., so we strip /auth prefix
+    location ^~ /auth/_next/ {
+        rewrite ^/auth/(.*)$ /$1 break;
+        expires 6M;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+
     # Static assets (from _next directory and public files)
     location ~* \.(?:ico|gif|jpe?g|png|woff2?|eot|otf|ttf|svg|js|css)$ {
+        expires 6M;
+        add_header Cache-Control "public, immutable";
         try_files $uri =404;
     }
 
