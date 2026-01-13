@@ -32,8 +32,6 @@ server {
 
     # Handle /auth prefix - strip it and serve from root
     location /auth/ {
-        otel_trace_sample_ratio $adaptive_sample;
-        
         # Remove trailing slash if present (except for /auth/ itself)
         rewrite ^(/auth/.+)/$ $1 permanent;
         
@@ -46,13 +44,11 @@ server {
 
     # Handle /auth without trailing slash
     location = /auth {
-        otel_trace_sample_ratio $adaptive_sample;
         try_files /index.html =404;
     }
 
     # Fallback for root-level requests (should not normally hit this if /auth basePath is used)
     location / {
-        otel_trace_sample_ratio $adaptive_sample;
         try_files $uri.html $uri $uri/ $uri/index.html =404;
     }
 }
