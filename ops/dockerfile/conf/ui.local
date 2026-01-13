@@ -34,6 +34,9 @@ server {
     location /auth/ {
         otel_trace_sample_ratio $adaptive_sample;
         
+        # Remove trailing slash if present (except for /auth/ itself)
+        rewrite ^(/auth/.+)/$ $1 permanent;
+        
         # Strip /auth prefix
         rewrite ^/auth/(.*)$ /$1 break;
         
