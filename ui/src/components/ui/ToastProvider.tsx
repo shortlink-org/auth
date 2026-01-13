@@ -17,8 +17,7 @@ export const ToastProvider: React.FC = () => {
       draggable
       pauseOnHover
       theme="colored"
-      toastClassName="backdrop-blur-sm"
-      bodyClassName="text-sm font-medium"
+      toastClassName="backdrop-blur-sm text-sm font-medium"
       style={{
         zIndex: 9999,
       }}
