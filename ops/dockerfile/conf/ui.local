@@ -28,10 +28,10 @@ server {
     # Next.js static assets - must be before /auth/ location
     # HTTPRoute passes full path /auth/_next/..., so we strip /auth prefix
     location ^~ /auth/_next/ {
-        rewrite ^/auth/(.*)$ /$1 break;
+        alias /usr/share/nginx/html/_next/;
         expires 6M;
         add_header Cache-Control "public, immutable";
-        try_files $uri =404;
+        access_log off;
     }
 
     # Static assets (from _next directory and public files)
