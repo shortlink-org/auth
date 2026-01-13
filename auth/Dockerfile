@@ -54,7 +54,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 ########################
 # 2️⃣  Runtime stage
 ########################
-FROM alpine:3.22
+FROM alpine:3.23
 
 # Declare arguments needed in this stage
 ARG CMD_PATH="cmd"
