@@ -13,7 +13,7 @@ deploy:
 
   env:
     TRACER_URI: grafana-tempo.grafana:4317
-    GRPC_CLIENT_HOST: internal-gateway.istio-ingress.svc.cluster.local
+    GRPC_CLIENT_HOST: internal-gateway-istio.istio-ingress.svc.cluster.local
 
   imagePullSecrets: []
 
