@@ -13,7 +13,11 @@ deploy:
 
   env:
     TRACER_URI: grafana-tempo.grafana:4317
+
     GRPC_CLIENT_HOST: internal-gateway-istio.istio-ingress.svc.cluster.local
+    GRPC_CLIENT_TIMEOUT: 15s
+    GRPC_CLIENT_TLS_ENABLED: "true"
+    GRPC_CLIENT_CERT_PATH: /etc/grpc/ca/ca.crt
 
   imagePullSecrets: []
 
@@ -82,6 +86,16 @@ deploy:
     capabilities:
       drop:
         - ALL
+
+  volumes:
+    - name: grpc-ca
+      type: configMap
+      configMapName: root-ca-bundle
+      mountPath: /etc/grpc/ca
+      readOnly: true
+      items:
+        - key: ca.crt
+          path: ca.crt
 
 service:
   type: ClusterIP
