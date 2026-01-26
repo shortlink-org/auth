@@ -1,0 +1,12 @@
+# Common default values for ory/oathkeeper.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+oathkeeper:
+  enabled: true
+
+  serviceMonitor:
+    enabled: true
+
+    labels:
+        release: prometheus-operator

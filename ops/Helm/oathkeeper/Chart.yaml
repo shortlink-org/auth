@@ -1,0 +1,26 @@
+apiVersion: v2
+appVersion: "1.0.0"
+name: oathkeeper
+version: 0.1.0
+kubeVersion: ">= 1.30.0 || >= v1.30.0-0"
+keywords:
+  - auth
+  - oathkeeper
+maintainers:
+  - email: batazor111@gmail.com
+    name: batazor
+    url: batazor.ru
+engine: gotpl
+type: application
+deprecated: false
+dependencies:
+  - name: oathkeeper
+    version: 0.60.1
+    repository: https://k8s.ory.sh/helm/charts
+    condition: oathkeeper.enabled
+    tags:
+      - auth
+      - kratos
+  - name: shortlink-template
+    version: 0.11.3
+    repository: oci://ghcr.io/shortlink-org/charts
