@@ -30,11 +30,13 @@ oathkeeper:
 
     extraEnv:
       - name: TRACING_PROVIDER
-        value: jaeger
-      - name: TRACING_PROVIDERS_JAEGER_SAMPLING_SERVER_URL
-        value: http://grafana-tempo.grafana:14268/sampling
-      - name: TRACING_PROVIDERS_JAEGER_LOCAL_AGENT_ADDRESS
-        value: grafana-tempo.grafana:6831
+        value: otel
+      - name: TRACING_PROVIDERS_OTLP_SERVER_URL
+        value: grafana-tempo.grafana:4317
+      - name: TRACING_PROVIDERS_OTLP_INSECURE
+        value: "true"
+      - name: TRACING_PROVIDERS_OTLP_SAMPLING_SAMPLING_RATIO
+        value: "1.0"
 
   oathkeeper:
     config:
