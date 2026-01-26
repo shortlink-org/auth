@@ -32,7 +32,7 @@ oathkeeper:
       - name: TRACING_PROVIDER
         value: otel
       - name: TRACING_PROVIDERS_OTLP_SERVER_URL
-        value: grafana-tempo.grafana:4317
+        value: http://grafana-tempo.grafana:4318
       - name: TRACING_PROVIDERS_OTLP_INSECURE
         value: "true"
       - name: TRACING_PROVIDERS_OTLP_SAMPLING_SAMPLING_RATIO
