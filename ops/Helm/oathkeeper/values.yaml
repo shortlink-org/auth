@@ -4,6 +4,10 @@
 #
 # ADR: docs/ADR/decisions/0001-zero-trust-authentication-flow-browser-istio-oathkeeper-bff.md
 
+# HTTPRoute is configured in BFF chart, not here
+httpRoute:
+  enabled: false
+
 oathkeeper:
   enabled: true
 
