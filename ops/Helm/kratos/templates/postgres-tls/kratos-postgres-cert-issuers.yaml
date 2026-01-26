@@ -1,0 +1,37 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: kratos-postgres-selfsigned
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  selfSigned: {}
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kratos-postgres-root-ca
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  isCA: true
+  commonName: kratos-postgres-root-ca
+  secretName: kratos-postgres-root-ca
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: kratos-postgres-selfsigned
+    kind: Issuer
+
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: kratos-postgres-ca
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  ca:
+    secretName: kratos-postgres-root-ca

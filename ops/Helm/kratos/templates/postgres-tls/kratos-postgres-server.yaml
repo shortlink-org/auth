@@ -1,0 +1,28 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kratos-postgres-server
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  secretName: kratos-postgres-cluster-tls
+  duration: 2160h          # 90d
+  renewBefore: 360h        # 15d
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  usages:
+    - server auth
+  commonName: kratos-postgres-primary.{{ .Release.Namespace }}.svc.cluster.local
+  dnsNames:
+    - kratos-postgres-primary
+    - kratos-postgres-primary.{{ .Release.Namespace }}
+    - kratos-postgres-primary.{{ .Release.Namespace }}.svc
+    - kratos-postgres-primary.{{ .Release.Namespace }}.svc.cluster.local
+    - kratos-postgres-replicas
+    - kratos-postgres-replicas.{{ .Release.Namespace }}
+    - kratos-postgres-replicas.{{ .Release.Namespace }}.svc
+    - kratos-postgres-replicas.{{ .Release.Namespace }}.svc.cluster.local
+  issuerRef:
+    name: kratos-postgres-ca
+    kind: Issuer

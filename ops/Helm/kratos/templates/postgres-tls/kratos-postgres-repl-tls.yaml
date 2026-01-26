@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kratos-postgres-replication-client
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  secretName: kratos-postgres-repl-tls
+  duration: 2160h
+  renewBefore: 360h
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  usages:
+    - client auth
+  commonName: kratos-postgres-replication
+  issuerRef:
+    name: kratos-postgres-ca
+    kind: Issuer
