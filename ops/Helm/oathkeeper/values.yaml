@@ -49,12 +49,12 @@ oathkeeper:
               - "https://shortlink.best"
               - "https://*.shortlink.best"
             allowed_methods:
-              - POST
               - GET
+              - HEAD
+              - POST
               - PUT
               - PATCH
               - DELETE
-              - OPTIONS
             allowed_headers:
               - Authorization
               - Content-Type
