@@ -179,6 +179,8 @@ github.com/segmentio/encoding v0.5.3 h1:OjMgICtcSFuNvQCdwqMCv9Tg7lEOXGwm1J5RPQcc
 github.com/segmentio/encoding v0.5.3/go.mod h1:HS1ZKa3kSN32ZHVZ7ZLPLXWvOVIiZtyJnO1gPH1sKt0=
 github.com/shortlink-org/go-sdk/auth v0.0.0-20260107222628-ad66d85c8a41 h1:GNDKtgZyX/EfoVFjoBhJx4+IFqHwtQwt6+QcLf1qn48=
 github.com/shortlink-org/go-sdk/auth v0.0.0-20260107222628-ad66d85c8a41/go.mod h1:NwJDM4BlFgV79gTj6T66OLzv/P83hzk26GSYeuPeIGM=
+github.com/shortlink-org/go-sdk/auth v0.0.0-20260125214405-b8e63750f8f1 h1:wQzY8xK/EI7PjLQkVpVWrQrCVimZg2EFxRzgduT/JxI=
+github.com/shortlink-org/go-sdk/auth v0.0.0-20260125214405-b8e63750f8f1/go.mod h1:PR030kwoE+Ql19/q2IFDsYc8JUmToRqkp+o+72gJdEw=
 github.com/shortlink-org/go-sdk/config v0.0.0-20260107222628-ad66d85c8a41 h1:PrFkI7FUFU7aZBDXjogFrB9rY6ftRJ6l0J2ylFtcuak=
 github.com/shortlink-org/go-sdk/config v0.0.0-20260107222628-ad66d85c8a41/go.mod h1:WY8oEI8clVi+3QoNTC+4jcGQUVJmzNmO3D1fAcobayg=
 github.com/shortlink-org/go-sdk/context v0.0.0-20260107222628-ad66d85c8a41 h1:VzOOLtHs+cz/Teczuiu52YXoDqr7zR1+eQ43LKrULs8=
