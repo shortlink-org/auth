@@ -150,7 +150,7 @@ oathkeeper:
           enabled: true
           config:
             issuer_url: https://shortlink.best
-            jwks_url: file:///etc/secrets/jwks.json
+            jwks_url: file:///etc/secrets/mutator.id_token.jwks.json
             ttl: 15m
             claims: |
               {
