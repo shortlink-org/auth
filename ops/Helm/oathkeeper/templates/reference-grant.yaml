@@ -1,0 +1,18 @@
+{{- /*
+ReferenceGrant allows HTTPRoutes from other namespaces to reference oathkeeper-proxy service.
+This is required for cross-namespace backend references in Gateway API.
+*/ -}}
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-oathkeeper-from-shortlink-link
+  namespace: {{ .Release.Namespace }}
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: shortlink-link
+  to:
+    - group: ""
+      kind: Service
+      name: oathkeeper-proxy
