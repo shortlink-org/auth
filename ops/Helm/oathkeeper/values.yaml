@@ -1,12 +1,273 @@
 # Common default values for ory/oathkeeper.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+#
+# ADR: docs/ADR/decisions/0001-zero-trust-authentication-flow-browser-istio-oathkeeper-bff.md
 
 oathkeeper:
   enabled: true
 
+  fullnameOverride: oathkeeper
+
+  revisionHistoryLimit: 3
+
+  deployment:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 10m
+        memory: 64Mi
+
+    extraEnv:
+      - name: TRACING_PROVIDER
+        value: jaeger
+      - name: TRACING_PROVIDERS_JAEGER_SAMPLING_SERVER_URL
+        value: http://grafana-tempo.grafana:14268/sampling
+      - name: TRACING_PROVIDERS_JAEGER_LOCAL_AGENT_ADDRESS
+        value: grafana-tempo.grafana:6831
+
+  oathkeeper:
+    config:
+      log:
+        level: info
+        format: json
+        # -- Do not log sensitive values (tokens, credentials) in production
+        leak_sensitive_values: false
+
+      serve:
+        proxy:
+          port: 4455
+          cors:
+            enabled: true
+            allowed_origins:
+              - "https://shortlink.best"
+              - "https://*.shortlink.best"
+            allowed_methods:
+              - POST
+              - GET
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+            allowed_headers:
+              - Authorization
+              - Content-Type
+              - Cookie
+              - X-Request-ID
+            exposed_headers:
+              - Content-Type
+              - X-Request-ID
+            allow_credentials: true
+
+        api:
+          port: 4456
+
+        prometheus:
+          port: 9000
+          metrics_path: /metrics
+
+      errors:
+        fallback:
+          - json
+
+        handlers:
+          redirect:
+            enabled: true
+            config:
+              to: https://shortlink.best/auth/login
+              when:
+                - error:
+                    - unauthorized
+                    - forbidden
+                  request:
+                    header:
+                      accept:
+                        - text/html
+
+          json:
+            enabled: true
+            config:
+              verbose: true
+
+      # Access rules are defined separately in accessRules section below
+      access_rules:
+        matching_strategy: glob
+        repositories:
+          - file:///etc/rules/access-rules.json
+
+      # =========================================================================
+      # Authenticators
+      # =========================================================================
+      authenticators:
+        # Cookie Session Authenticator
+        # Validates sessions by calling Kratos whoami endpoint
+        cookie_session:
+          enabled: true
+          config:
+            check_session_url: http://kratos-public.auth.svc.cluster.local/sessions/whoami
+            preserve_path: true
+            preserve_query: true
+            extra_from: "@this"
+            subject_from: "identity.id"
+            forward_http_headers:
+              - Cookie
+              - X-Request-ID
+            only:
+              - ory_kratos_session
+
+        # Anonymous Authenticator - for public endpoints
+        anonymous:
+          enabled: true
+          config:
+            subject: guest
+
+        # No-op Authenticator - passes through without authentication
+        noop:
+          enabled: true
+
+      # =========================================================================
+      # Authorizers
+      # =========================================================================
+      authorizers:
+        allow:
+          enabled: true
+
+        deny:
+          enabled: true
+
+      # =========================================================================
+      # Mutators
+      # =========================================================================
+      mutators:
+        # ID Token Mutator - generates JWT tokens for downstream services
+        id_token:
+          enabled: true
+          config:
+            issuer_url: https://shortlink.best
+            jwks_url: file:///etc/secrets/jwks.json
+            ttl: 15m
+            claims: |
+              {
+                "sub": "{{ print .Subject }}",
+                "email": "{{ print .Extra.identity.traits.email }}",
+                "name": "{{ print .Extra.identity.traits.name }}",
+                "identity_id": "{{ print .Extra.identity.id }}",
+                "session_id": "{{ print .Extra.id }}",
+                "metadata": {{ .Extra.identity.metadata_public | toJson }}
+              }
+
+        # Header Mutator - adds custom headers
+        header:
+          enabled: true
+          config:
+            headers:
+              X-User-ID: "{{ print .Subject }}"
+
+        # No-op Mutator
+        noop:
+          enabled: true
+
+  # ==========================================================================
+  # Access Rules
+  # ==========================================================================
+  accessRules: |
+    [
+      {
+        "id": "api:bff-protected",
+        "version": "v0.0.1",
+        "upstream": {
+          "preserve_host": true,
+          "url": "http://bff:8080"
+        },
+        "match": {
+          "url": "https://shortlink.best/api/v1/<**>",
+          "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+        },
+        "authenticators": [
+          {
+            "handler": "cookie_session"
+          }
+        ],
+        "mutators": [
+          {
+            "handler": "id_token"
+          }
+        ],
+        "authorizer": {
+          "handler": "allow"
+        },
+        "errors": [
+          {
+            "handler": "redirect",
+            "config": {
+              "to": "https://shortlink.best/auth/login"
+            }
+          }
+        ]
+      },
+      {
+        "id": "api:health",
+        "version": "v0.0.1",
+        "upstream": {
+          "preserve_host": true,
+          "url": "http://bff:8080"
+        },
+        "match": {
+          "url": "https://shortlink.best/api/v1/health",
+          "methods": ["GET"]
+        },
+        "authenticators": [
+          {
+            "handler": "anonymous"
+          }
+        ],
+        "mutators": [
+          {
+            "handler": "noop"
+          }
+        ],
+        "authorizer": {
+          "handler": "allow"
+        }
+      },
+      {
+        "id": "kratos:public",
+        "version": "v0.0.1",
+        "upstream": {
+          "preserve_host": true,
+          "url": "http://kratos-public.auth.svc.cluster.local"
+        },
+        "match": {
+          "url": "https://shortlink.best/api/auth/<**>",
+          "methods": ["GET", "POST", "PUT", "DELETE"]
+        },
+        "authenticators": [
+          {
+            "handler": "noop"
+          }
+        ],
+        "mutators": [
+          {
+            "handler": "noop"
+          }
+        ],
+        "authorizer": {
+          "handler": "allow"
+        }
+      }
+    ]
+
+  # ==========================================================================
+  # JWKS for id_token mutator
+  # Generate with: oathkeeper credentials generate --alg RS256 > jwks.json
+  # ==========================================================================
+  # mutatorIdTokenJWKs:
+  #   Set this via --set-file 'oathkeeper.mutatorIdTokenJWKs=./jwks.json'
+  #   or create a secret and mount it
+
   serviceMonitor:
     enabled: true
-
     labels:
-        release: prometheus-operator
+      release: prometheus-operator

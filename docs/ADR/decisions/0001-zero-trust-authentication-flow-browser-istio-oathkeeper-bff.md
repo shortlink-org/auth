@@ -365,9 +365,37 @@ end
 | Kong + Plugin | Vendor lock-in, harder integration with Kratos |
 | Custom middleware | Logic duplication, maintenance complexity |
 
+## Implementation
+
+Helm configuration: `ops/Helm/oathkeeper/values.yaml`
+
+### JWKS Generation
+
+Generate JWKS for the `id_token` mutator:
+
+```bash
+# Using Oathkeeper CLI
+oathkeeper credentials generate --alg RS256 > jwks.json
+
+# Deploy with Helm
+helm upgrade --install oathkeeper ./ops/Helm/oathkeeper \
+  --set-file 'oathkeeper.mutatorIdTokenJWKs=./jwks.json'
+```
+
+### Verify Configuration
+
+```bash
+# Check Oathkeeper health
+curl -s http://oathkeeper-api:4456/health/ready
+
+# Test access rule matching
+curl -s http://oathkeeper-api:4456/rules
+```
+
 ## References
 
 - [Zero Trust API Security with Ory - Tutorial](https://www.ory.com/blog/zero-trust-api-security-ory-tutorial)
+- [Ory Oathkeeper Helm Chart](https://k8s.ory.sh/helm/oathkeeper.html)
 - [Ory Oathkeeper Documentation](https://www.ory.sh/docs/oathkeeper)
 - [Ory Kratos Documentation](https://www.ory.sh/docs/kratos)
 - [Istio Gateway Documentation](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/)

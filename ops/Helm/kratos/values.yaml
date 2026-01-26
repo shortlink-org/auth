@@ -175,7 +175,8 @@ kratos:
       log:
         level: info
         format: json
-        leak_sensitive_values: true
+        # -- Do not log sensitive values (tokens, credentials) in production
+        leak_sensitive_values: false
 
       secrets:
         cookie:
