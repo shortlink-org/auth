@@ -30,11 +30,11 @@ oathkeeper:
 
     extraEnv:
       - name: TRACING_PROVIDER
-        value: otel
-      - name: OTEL_EXPORTER_OTLP_ENDPOINT
-        value: http://grafana-tempo.grafana:4318
-      - name: OTEL_EXPORTER_OTLP_PROTOCOL
-        value: http/protobuf
+        value: jaeger
+      - name: TRACING_PROVIDERS_JAEGER_SAMPLING_SERVER_URL
+        value: http://grafana-tempo.grafana:14268/sampling
+      - name: TRACING_PROVIDERS_JAEGER_LOCAL_AGENT_ADDRESS
+        value: grafana-tempo.grafana:6831
 
   oathkeeper:
     config:
