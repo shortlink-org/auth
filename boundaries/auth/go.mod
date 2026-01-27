@@ -13,7 +13,7 @@ require (
 	github.com/shortlink-org/go-sdk/flight_trace v0.0.0-20260107222628-ad66d85c8a41
 	github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20260107222628-ad66d85c8a41
 	github.com/shortlink-org/go-sdk/logger v0.0.0-20260125214405-b8e63750f8f1
-	github.com/shortlink-org/go-sdk/observability v0.0.0-20260121215533-0995bc8d4d88
+	github.com/shortlink-org/go-sdk/observability v0.0.0-20260127131202-197b04f9e42e
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel/metric v1.39.0
@@ -94,6 +94,7 @@ require (
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.64.0 // indirect
+	go.opentelemetry.io/contrib/propagators/b3 v1.39.0 // indirect
 	go.opentelemetry.io/otel v1.39.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.39.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.39.0 // indirect
