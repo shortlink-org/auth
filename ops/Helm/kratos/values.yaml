@@ -165,6 +165,7 @@ kratos:
             lifespan: 10m
             ui_url: https://shortlink.best/auth/registration
             after:
+              default_browser_return_url: https://shortlink.best/next
               password:
                 hooks:
                   - hook: session

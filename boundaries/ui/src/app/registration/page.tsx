@@ -77,7 +77,8 @@ const SignUpContent: React.FC = () => {
         }
 
         // Otherwise go home or return_to
-        router.push(flow.return_to || '/')
+        // Use window.location to bypass basePath and redirect to main site
+        window.location.href = flow.return_to || 'https://shortlink.best/next'
       } catch (err: unknown) {
         // handleFlowError will do redirects/refresh for expired/invalid flows
         if (err && typeof err === 'object' && 'response' in err) {
