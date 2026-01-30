@@ -183,6 +183,39 @@ oathkeeper:
     accessRules: |
       [
       {
+        "id": "temporal:web-ui",
+        "version": "v0.0.1",
+        "upstream": {
+          "preserve_host": true,
+          "url": "http://temporal-web.temporal.svc.cluster.local:8080"
+        },
+        "match": {
+          "url": "https://temporal.shortlink.best/<**>",
+          "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+        },
+        "authenticators": [
+          {
+            "handler": "cookie_session"
+          }
+        ],
+        "mutators": [
+          {
+            "handler": "id_token"
+          }
+        ],
+        "authorizer": {
+          "handler": "allow"
+        },
+        "errors": [
+          {
+            "handler": "redirect",
+            "config": {
+              "to": "https://shortlink.best/auth/login"
+            }
+          }
+        ]
+      },
+      {
         "id": "api:bff-protected",
         "version": "v0.0.1",
         "upstream": {
