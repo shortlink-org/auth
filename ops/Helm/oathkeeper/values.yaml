@@ -172,6 +172,7 @@ oathkeeper:
           config:
             headers:
               X-User-ID: "{{ print .Subject }}"
+              X-Email: "{{ print .Extra.identity.traits.email }}"
 
         # No-op Mutator
         noop:
