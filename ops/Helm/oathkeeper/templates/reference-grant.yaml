@@ -31,3 +31,18 @@ spec:
     - group: ""
       kind: Service
       name: oathkeeper-proxy
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-oathkeeper-from-shortlink-shop
+  namespace: {{ .Release.Namespace }}
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: shortlink-shop
+  to:
+    - group: ""
+      kind: Service
+      name: oathkeeper-proxy

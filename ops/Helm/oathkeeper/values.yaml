@@ -183,6 +183,39 @@ oathkeeper:
     accessRules: |
       [
       {
+        "id": "shop:django-admin",
+        "version": "v0.0.1",
+        "upstream": {
+          "preserve_host": true,
+          "url": "http://shortlink-shop-admin.shortlink-shop.svc.cluster.local:8000"
+        },
+        "match": {
+          "url": "https://shop.shortlink.best/admin<**>",
+          "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
+        },
+        "authenticators": [
+          {
+            "handler": "cookie_session"
+          }
+        ],
+        "mutators": [
+          {
+            "handler": "header"
+          }
+        ],
+        "authorizer": {
+          "handler": "allow"
+        },
+        "errors": [
+          {
+            "handler": "redirect",
+            "config": {
+              "to": "https://shortlink.best/auth/login"
+            }
+          }
+        ]
+      },
+      {
         "id": "temporal:web-ui",
         "version": "v0.0.1",
         "upstream": {
