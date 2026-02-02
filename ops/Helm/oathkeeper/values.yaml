@@ -185,7 +185,7 @@ oathkeeper:
       [
       {
         "id": "shop:django-admin",
-        "version": "v0.0.1",
+        "version": "v0.0.2",
         "upstream": {
           "preserve_host": true,
           "url": "http://shortlink-shop-admin.shortlink-shop.svc.cluster.local:8000"
@@ -202,6 +202,9 @@ oathkeeper:
         "mutators": [
           {
             "handler": "header"
+          },
+          {
+            "handler": "id_token"
           }
         ],
         "authorizer": {
