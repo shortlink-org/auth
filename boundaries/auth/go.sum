@@ -187,6 +187,8 @@ github.com/shortlink-org/go-sdk/flags v0.0.0-20260107222628-ad66d85c8a41 h1:CZTe
 github.com/shortlink-org/go-sdk/flags v0.0.0-20260107222628-ad66d85c8a41/go.mod h1:ATlgoMJjQcXmsUKtZ3Ynf1+Qh8YK6zNgLoeq3RQ+dnA=
 github.com/shortlink-org/go-sdk/flight_trace v0.0.0-20260107222628-ad66d85c8a41 h1:z2Y652J8k93ZZApQIj6doOXXOB2Svy/j5N1JP+DNiw4=
 github.com/shortlink-org/go-sdk/flight_trace v0.0.0-20260107222628-ad66d85c8a41/go.mod h1:MZhMrR3UA08VDdon4yGc/R1nG0IZDbtl4EFkSq5eECY=
+github.com/shortlink-org/go-sdk/flight_trace v0.0.0-20260203205640-e7fdee8b6f5d h1:WF9C34zH5I/nrYmmkoLli30dfnsYfV/iRkx3ojCG47w=
+github.com/shortlink-org/go-sdk/flight_trace v0.0.0-20260203205640-e7fdee8b6f5d/go.mod h1:fhhI2TG92pHp8nxJHH1xX3mLJvzr0Q+FpuSXjZ4YERs=
 github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20260107222628-ad66d85c8a41 h1:ywRA6KaX4O0Iktsd6JCWAeD8EtEOiSfegm18dQ3N+64=
 github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20260107222628-ad66d85c8a41/go.mod h1:r3Nti+tGLRZcttb+cF1QBRy86znQ4p5o4eVjIDLoYu8=
 github.com/shortlink-org/go-sdk/grpc v0.0.0-20260107222628-ad66d85c8a41 h1:WjzC66FVpMtkrf9TnxIhmwwpEsk8kWPu/SMgusc7cKY=
