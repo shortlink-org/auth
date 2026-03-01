@@ -22,5 +22,5 @@ dependencies:
       - auth
       - kratos
   - name: shortlink-template
-    version: 0.11.3
+    version: 0.12.2
     repository: oci://ghcr.io/shortlink-org/charts

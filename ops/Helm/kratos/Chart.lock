@@ -4,6 +4,6 @@ dependencies:
   version: 0.60.1
 - name: shortlink-template
   repository: oci://ghcr.io/shortlink-org/charts
-  version: 0.11.3
-digest: sha256:5214de22c3908c4cd5d7d76d4d9968da934d1dd87a80faec74232193e0eaa861
-generated: "2026-01-27T00:25:45.444231+02:00"
+  version: 0.12.2
+digest: sha256:c640b63166541f9876d3f185fb41e35d0d8c736b3b8bbe6b4da737f2c667594d
+generated: "2026-03-01T07:10:25.546758019Z"
