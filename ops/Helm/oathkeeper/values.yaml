@@ -224,7 +224,7 @@ oathkeeper:
         "version": "v0.0.1",
         "upstream": {
           "preserve_host": true,
-          "url": "http://shortlink-shop-bff.shortlink-shop.svc.cluster.local:9991"
+          "url": "http://shortlink-shop-ui.shortlink-shop.svc.cluster.local:3000"
         },
         "match": {
           "url": "https://shop.shortlink.best/<**>",
