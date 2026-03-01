@@ -10,7 +10,7 @@ ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 ########################
 # 1️⃣  Builder stage
 ########################
-FROM --platform=$BUILDPLATFORM golang:1.25-alpine AS builder
+FROM --platform=$BUILDPLATFORM golang:1.26-alpine AS builder
 
 ARG PGO_PATH
 ARG CMD_PATH="cmd"
