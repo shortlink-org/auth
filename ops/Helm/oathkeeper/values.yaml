@@ -220,6 +220,32 @@ oathkeeper:
         ]
       },
       {
+        "id": "shop:bff",
+        "version": "v0.0.1",
+        "upstream": {
+          "preserve_host": true,
+          "url": "http://shortlink-shop-bff.shortlink-shop.svc.cluster.local:9991"
+        },
+        "match": {
+          "url": "https://shop.shortlink.best/<**>",
+          "methods": ["GET", "POST", "OPTIONS"]
+        },
+        "authenticators": [
+          { "handler": "cookie_session" }
+        ],
+        "mutators": [
+          { "handler": "header" },
+          { "handler": "id_token" }
+        ],
+        "authorizer": { "handler": "allow" },
+        "errors": [
+          {
+            "handler": "redirect",
+            "config": { "to": "https://shortlink.best/auth/login" }
+          }
+        ]
+      },
+      {
         "id": "temporal:web-ui",
         "version": "v0.0.1",
         "upstream": {
