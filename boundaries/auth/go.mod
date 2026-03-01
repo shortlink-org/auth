@@ -77,7 +77,6 @@ require (
 	github.com/prometheus/otlptranslator v1.0.0 // indirect
 	github.com/prometheus/procfs v0.19.2 // indirect
 	github.com/sagikazarmark/locafero v0.11.0 // indirect
-	github.com/samber/lo v1.52.0 // indirect
 	github.com/shortlink-org/go-sdk/grpc v0.0.0-20260107222628-ad66d85c8a41 // indirect
 	github.com/shortlink-org/go-sdk/http v0.0.0-20260107222411-453281b10921 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect

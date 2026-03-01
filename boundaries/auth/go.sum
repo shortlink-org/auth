@@ -1,5 +1,3 @@
-buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.10-20250912141014-52f32327d4b0.1 h1:31on4W/yPcV4nZHL4+UCiCvLPsMqe/vJcNg8Rci0scc=
-buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.10-20250912141014-52f32327d4b0.1/go.mod h1:fUl8CEN/6ZAMk6bP8ahBJPUJw7rbp+j4x+wCcYi2IG4=
 buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.11-20251209175733-2a1774d88802.1 h1:j9yeqTWEFrtimt8Nng2MIeRrpoCvQzM9/g25XTvqUGg=
 buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.11-20251209175733-2a1774d88802.1/go.mod h1:tvtbpgaVXZX4g6Pn+AnzFycuRK3MOz5HJfEGeEllXYM=
 dario.cat/mergo v1.0.1 h1:Ra4+bf83h2ztPIQYNP99R6m+Y7KfnARDfID+a+vLl4s=
@@ -16,8 +14,6 @@ github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 h1:TngWCqHvy9oXAN6lEV
 github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5/go.mod h1:lmUJ/7eu/Q8D7ML55dXQrVaamCz2vxCfdQBasLZfHKk=
 github.com/Unleash/unleash-go-sdk/v5 v5.0.3 h1:tkXvNb7aJtOx1lSVV1riXUdNkXTrhriisVStLWlcZl0=
 github.com/Unleash/unleash-go-sdk/v5 v5.0.3/go.mod h1:gSSfyX/8pUEpx9lla15HuVd30/XG6dcd17M4VhR0Y38=
-github.com/authzed/authzed-go v1.7.0 h1:mgBC1dZLRan+t6oKvrf0RMfpZx5ggXCH16OkodtAbVw=
-github.com/authzed/authzed-go v1.7.0/go.mod h1:2PVaUUQavKGsjK22dFdovY5djkeHAiByiySRwbWR8tU=
 github.com/authzed/authzed-go v1.8.0 h1:cRka8J8QXGl+nyNrhsiPSFJUluIG1tuTXnG8ad2LZ1Y=
 github.com/authzed/authzed-go v1.8.0/go.mod h1:WC3x/SuVvclBlDYMg9V7e5c/J/KGGwG+cSw2WQBbodk=
 github.com/authzed/grpcutil v0.0.0-20240123194739-2ea1e3d2d98b h1:wbh8IK+aMLTCey9sZasO7b6BWLAJnHHvb79fvWCXwxw=
@@ -55,8 +51,6 @@ github.com/docker/go-connections v0.5.0 h1:USnMq7hx7gwdVZq1L49hLXaFtUdTADjXGp+uj
 github.com/docker/go-connections v0.5.0/go.mod h1:ov60Kzw0kKElRwhNs9UlUHAE/F9Fe6GLaXnqyDdmEXc=
 github.com/docker/go-units v0.5.0 h1:69rxXcBk27SvSaaxTtLh/8llcHD8vYHT7WSdRZ/jvr4=
 github.com/docker/go-units v0.5.0/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
-github.com/envoyproxy/protoc-gen-validate v1.2.1 h1:DEo3O99U8j4hBFwbJfrz9VtgcDfUKS7KJ7spH3d86P8=
-github.com/envoyproxy/protoc-gen-validate v1.2.1/go.mod h1:d/C80l/jxXLdfEIhX1W2TmLfsJ31lvEjwamM4DxlWXU=
 github.com/envoyproxy/protoc-gen-validate v1.3.0 h1:TvGH1wof4H33rezVKWSpqKz5NXWg5VPuZ0uONDT6eb4=
 github.com/envoyproxy/protoc-gen-validate v1.3.0/go.mod h1:HvYl7zwPa5mffgyeTUHA9zHIH36nmrm7oCbo4YKoSWA=
 github.com/felixge/fgprof v0.9.5 h1:8+vR6yu2vvSKn08urWyEuxx75NWPEvybbkBirEpsbVY=
@@ -177,14 +171,10 @@ github.com/rogpeppe/go-internal v1.14.1/go.mod h1:MaRKkUm5W0goXpeCfT7UZI6fk/L7L7
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/sagikazarmark/locafero v0.11.0 h1:1iurJgmM9G3PA/I+wWYIOw/5SyBtxapeHDcg+AAIFXc=
 github.com/sagikazarmark/locafero v0.11.0/go.mod h1:nVIGvgyzw595SUSUE6tvCp3YYTeHs15MvlmU87WwIik=
-github.com/samber/lo v1.52.0 h1:Rvi+3BFHES3A8meP33VPAxiBZX/Aws5RxrschYGjomw=
-github.com/samber/lo v1.52.0/go.mod h1:4+MXEGsJzbKGaUEQFKBq2xtfuznW9oz/WrgyzMzRoM0=
 github.com/segmentio/asm v1.2.0 h1:9BQrFxC+YOHJlTlHGkTrFWf59nbL3XnCoFLTwDCI7ys=
 github.com/segmentio/asm v1.2.0/go.mod h1:BqMnlJP91P8d+4ibuonYZw9mfnzI9HfxselHZr5aAcs=
 github.com/segmentio/encoding v0.5.3 h1:OjMgICtcSFuNvQCdwqMCv9Tg7lEOXGwm1J5RPQccx6w=
 github.com/segmentio/encoding v0.5.3/go.mod h1:HS1ZKa3kSN32ZHVZ7ZLPLXWvOVIiZtyJnO1gPH1sKt0=
-github.com/shortlink-org/go-sdk/auth v0.0.0-20260125214405-b8e63750f8f1 h1:wQzY8xK/EI7PjLQkVpVWrQrCVimZg2EFxRzgduT/JxI=
-github.com/shortlink-org/go-sdk/auth v0.0.0-20260125214405-b8e63750f8f1/go.mod h1:PR030kwoE+Ql19/q2IFDsYc8JUmToRqkp+o+72gJdEw=
 github.com/shortlink-org/go-sdk/auth v0.0.0-20260228185005-29f3e1960429 h1:fOHyqBQkuBdXiBouE09R5GbNMP58ySU/5zs//XC6mcA=
 github.com/shortlink-org/go-sdk/auth v0.0.0-20260228185005-29f3e1960429/go.mod h1:thGqNmtocfyrZxcPFIsXPEaK8oAqlxiD7b83VAP8ql4=
 github.com/shortlink-org/go-sdk/config v0.0.0-20260107222628-ad66d85c8a41 h1:PrFkI7FUFU7aZBDXjogFrB9rY6ftRJ6l0J2ylFtcuak=
