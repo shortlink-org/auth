@@ -1,18 +1,17 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { useEffect, useState, useCallback } from 'react'
+import { useCallback, useSyncExternalStore, type MouseEvent } from 'react'
 // @ts-ignore
 import { ToggleDarkMode } from '@shortlink-org/ui-kit'
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  // Avoid hydration mismatch
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  )
 
   const isDark = resolvedTheme === 'dark'
 
@@ -22,7 +21,7 @@ export function ThemeToggle() {
   }, [isDark, setTheme])
 
   const handleWrapperClick = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent<HTMLDivElement>) => {
       e.stopPropagation()
       handleToggle()
     },
@@ -56,4 +55,3 @@ export function ThemeToggle() {
     </div>
   )
 }
-

@@ -39,9 +39,6 @@ const nextConfig: NextConfig = {
   
     // Enable support for `global-not-found`
     globalNotFound: true,
-  
-    // Enable FS cache for Turbopack
-    turbopackFileSystemCacheForDev: true,
   },
   
   // If you truly need a CDN path for static assets only, set assetPrefix as well,

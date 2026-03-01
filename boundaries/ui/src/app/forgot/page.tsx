@@ -6,9 +6,10 @@ import { AxiosError } from 'axios'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Suspense, useEffect, useMemo, useState } from 'react'
 
 import { Flow } from '@/components/ui/Flow'
+import { FormSkeleton } from '@/components/ui/LoadingSkeleton'
 import { handleFlowError } from '@/pkg/errors'
 import ory from '@/pkg/sdk'
 
@@ -186,7 +187,6 @@ const ForgotContent: React.FC = () => {
 }
 
 const Page: NextPage = () => {
-  const { FormSkeleton } = require('@/components/ui/LoadingSkeleton')
   return (
     <Suspense fallback={
       <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">

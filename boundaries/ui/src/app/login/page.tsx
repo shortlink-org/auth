@@ -9,6 +9,7 @@ import React, { Suspense, useEffect, useState } from 'react'
 import { AxiosError } from 'axios'
 
 import { Flow } from '@/components/ui/Flow'
+import { FormSkeleton } from '@/components/ui/LoadingSkeleton'
 import { handleGetFlowError, handleFlowError } from '@/pkg/errors'
 import ory from '@/pkg/sdk'
 
@@ -188,7 +189,6 @@ const SignIn: NextPage = () => {
 }
 
 const LoginWrapper: NextPage = () => {
-  const { FormSkeleton } = require('@/components/ui/LoadingSkeleton')
   return (
     <Suspense fallback={
       <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950">
