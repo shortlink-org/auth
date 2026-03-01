@@ -8,7 +8,9 @@
     matrix:
       - APPLICATION: auth-ui
         REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/ui
-        DOCKERFILE_PATH: boundaries/ui/ops/dockerfile/auth-ui.Dockerfile
+        WORKDIR: ./boundaries/ui
+        # Path relative to WORKDIR so build runs as: cd WORKDIR && docker build -f DOCKERFILE_PATH .
+        DOCKERFILE_PATH: ops/dockerfile/auth-ui.Dockerfile
         DOCKERFILE_ARGS: >-
           --build-arg API_URI=${API_URI}
           --build-arg NEXT_PUBLIC_API_URI=${NEXT_PUBLIC_API_URI}
@@ -19,6 +21,7 @@
       - APPLICATION: auth
         REGISTRY_IMAGE: $CI_REGISTRY_IMAGE/auth
         WORKDIR: ./boundaries/auth
-        DOCKERFILE_PATH: boundaries/auth/Dockerfile
+        # Path relative to WORKDIR so build runs as: cd WORKDIR && docker build -f DOCKERFILE_PATH .
+        DOCKERFILE_PATH: Dockerfile
         DOCKERFILE_ARGS: >-
           --build-arg CMD_PATH=./cmd
