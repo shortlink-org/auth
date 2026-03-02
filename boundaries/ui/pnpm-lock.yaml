@@ -36,7 +36,7 @@ importers:
         specifier: 0.20260130.210344
         version: 0.20260130.210344(@babel/core@7.29.0)(@emotion/is-prop-valid@1.4.0)(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.3))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.3))(@types/react@19.2.14)(react@19.2.3))(@mui/system@7.3.8(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.3))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.3))(@types/react@19.2.14)(react@19.2.3))(@types/react@19.2.14)(react@19.2.3))(@opentelemetry/api@1.9.0)(@types/node@24.11.0)(@types/react-dom@19.2.3(@types/react@19.2.14))(babel-plugin-react-compiler@1.0.0)(postcss@8.5.6)(rollup@4.59.0)(typescript@5.9.3)(vite@7.1.2(@types/node@24.11.0)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.2))
       axios:
-        specifier: ^1.13.6
+        specifier: ^1.11.0
         version: 1.13.6
       babel-plugin-react-compiler:
         specifier: ^1.0.0
