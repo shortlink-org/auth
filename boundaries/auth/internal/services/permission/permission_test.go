@@ -50,7 +50,7 @@ schema:
 }
 
 func TestSpiceDB(t *testing.T) {
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel := context.WithCancelCause(context.Background())
 	client := &Service{}
 
 	// uses a sensible default on windows (tcp/http) and linux/osx (socket)
@@ -222,7 +222,7 @@ func TestSpiceDB(t *testing.T) {
 		})
 		require.NoError(t, errDelete, "Cannot delete relationships")
 
-		cancel()
+		cancel(nil)
 
 		// When you're done, kill and remove the container
 		if errPurge := pool.Purge(resource); errPurge != nil {
