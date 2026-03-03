@@ -140,7 +140,7 @@ func TestSpiceDB(t *testing.T) {
 			},
 		}
 
-		_, errWrite := client.permission.WriteRelationships(context.Background(), request)
+		_, errWrite := client.permission.WriteRelationships(ctx, request)
 		require.NoError(t, errWrite)
 	})
 
@@ -222,7 +222,7 @@ func TestSpiceDB(t *testing.T) {
 		})
 		require.NoError(t, errDelete, "Cannot delete relationships")
 
-		cancel(nil)
+		cancel(errors.New("TestSpiceDB cleanup"))
 
 		// When you're done, kill and remove the container
 		if errPurge := pool.Purge(resource); errPurge != nil {

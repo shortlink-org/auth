@@ -36,10 +36,9 @@ func New(ctx context.Context, log logger.Logger, permissionClient *authzed.Clien
 
 	log.Info("Permission migrations completed")
 
-	// Graceful shutdown
+	// Graceful shutdown: log why the context was canceled (Go 1.20+ cause APIs).
 	go func() {
 		<-ctx.Done()
-
 		log.Info("Permission service shutdown", slog.Any("cause", context.Cause(ctx)))
 	}()
 
