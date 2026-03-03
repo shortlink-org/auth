@@ -5,6 +5,7 @@ import (
 	"embed"
 	"fmt"
 	"io/fs"
+	"log/slog"
 	"path/filepath"
 
 	pb "github.com/authzed/authzed-go/proto/authzed/api/v1"
@@ -39,7 +40,7 @@ func New(ctx context.Context, log logger.Logger, permissionClient *authzed.Clien
 	go func() {
 		<-ctx.Done()
 
-		log.Info("Permission service shutdown")
+		log.Info("Permission service shutdown", slog.Any("cause", context.Cause(ctx)))
 	}()
 
 	return svc, nil
