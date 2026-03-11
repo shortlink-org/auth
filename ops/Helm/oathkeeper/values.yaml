@@ -191,7 +191,7 @@ oathkeeper:
           "url": "http://shortlink-shop-admin.shortlink-shop.svc.cluster.local:8000"
         },
         "match": {
-          "url": "https://shop.shortlink.best/admin<**>",
+          "url": "https://admin.shop.shortlink.best/admin<**>",
           "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
         },
         "authenticators": [
@@ -221,7 +221,7 @@ oathkeeper:
       },
       {
         "id": "shop:bff",
-        "version": "v0.0.1",
+        "version": "v0.0.2",
         "upstream": {
           "preserve_host": true,
           "url": "http://shortlink-shop-ui.shortlink-shop.svc.cluster.local:3000"
