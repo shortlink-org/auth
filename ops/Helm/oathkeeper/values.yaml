@@ -101,7 +101,7 @@ oathkeeper:
 
       # Access rules are defined separately in accessRules section below
       access_rules:
-        matching_strategy: glob
+        matching_strategy: regexp
         repositories:
           - file:///etc/rules/access-rules.json
 
@@ -191,7 +191,7 @@ oathkeeper:
           "url": "http://shortlink-shop-admin.shortlink-shop.svc.cluster.local:8000"
         },
         "match": {
-          "url": "https://shop.shortlink.best/admin<**>",
+          "url": "^https://shop\\.shortlink\\.best/admin(?:/.*)?$",
           "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
         },
         "authenticators": [
@@ -221,13 +221,13 @@ oathkeeper:
       },
       {
         "id": "shop:bff",
-        "version": "v0.0.1",
+        "version": "v0.0.2",
         "upstream": {
           "preserve_host": true,
           "url": "http://shortlink-shop-ui.shortlink-shop.svc.cluster.local:3000"
         },
         "match": {
-          "url": "https://shop.shortlink.best/<**>",
+          "url": "^https://shop\\.shortlink\\.best/(?!admin(?:/|$)).*$",
           "methods": ["GET", "POST", "OPTIONS"]
         },
         "authenticators": [
@@ -253,7 +253,7 @@ oathkeeper:
           "url": "http://temporal-web.temporal.svc.cluster.local:8080"
         },
         "match": {
-          "url": "https://temporal.shortlink.best/<**>",
+          "url": "^https://temporal\\.shortlink\\.best/.*$",
           "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
         },
         "authenticators": [
@@ -286,7 +286,7 @@ oathkeeper:
           "url": "http://shortlink-link-bff.shortlink-link.svc.cluster.local:7070"
         },
         "match": {
-          "url": "https://shortlink.best/api/<**>",
+          "url": "^https://shortlink\\.best/api/.*$",
           "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
         },
         "authenticators": [
@@ -319,7 +319,7 @@ oathkeeper:
           "url": "http://kratos-public.auth.svc.cluster.local"
         },
         "match": {
-          "url": "https://shortlink.best/api/auth/<**>",
+          "url": "^https://shortlink\\.best/api/auth/.*$",
           "methods": ["GET", "POST", "PUT", "DELETE"]
         },
         "authenticators": [
