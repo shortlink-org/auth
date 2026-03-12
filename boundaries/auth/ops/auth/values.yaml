@@ -91,6 +91,7 @@ deploy:
     - name: grpc-ca
       type: configMap
       configMapName: root-ca-bundle
+      optional: true
       mountPath: /etc/grpc/ca
       readOnly: true
       items:
