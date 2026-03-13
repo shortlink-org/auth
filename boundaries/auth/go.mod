@@ -7,7 +7,7 @@ require (
 	github.com/google/wire v0.7.0
 	github.com/ory/dockertest/v3 v3.12.0
 	github.com/shortlink-org/go-sdk/auth v0.0.0-20260228185005-29f3e1960429
-	github.com/shortlink-org/go-sdk/config v0.0.0-20260107222628-ad66d85c8a41
+	github.com/shortlink-org/go-sdk/config v0.0.0-20260307200444-15cb7da01fe0
 	github.com/shortlink-org/go-sdk/context v0.0.0-20260107222628-ad66d85c8a41
 	github.com/shortlink-org/go-sdk/flags v0.0.0-20260107222628-ad66d85c8a41
 	github.com/shortlink-org/go-sdk/flight_trace v0.0.0-20260107222628-ad66d85c8a41
@@ -30,6 +30,7 @@ require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
 	github.com/Unleash/unleash-go-sdk/v5 v5.0.3 // indirect
+	github.com/Unleash/unleash-go-sdk/v6 v6.2.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
@@ -56,9 +57,11 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware/providers/prometheus v1.1.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.3 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.7 // indirect
+	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/heptiolabs/healthcheck v0.0.0-20211123025425-613501dd5deb // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jzelinskie/stringz v0.0.3 // indirect
+	github.com/launchdarkly/eventsource v1.10.0 // indirect
 	github.com/moby/docker-image-spec v1.3.1 // indirect
 	github.com/moby/sys/user v0.3.0 // indirect
 	github.com/moby/term v0.5.2 // indirect
@@ -102,13 +105,13 @@ require (
 	go.opentelemetry.io/proto/otlp v1.9.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
-	golang.org/x/mod v0.31.0 // indirect
+	golang.org/x/mod v0.32.0 // indirect
 	golang.org/x/net v0.49.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
 	golang.org/x/sync v0.19.0 // indirect
-	golang.org/x/sys v0.40.0 // indirect
-	golang.org/x/text v0.33.0 // indirect
-	golang.org/x/tools v0.40.0 // indirect
+	golang.org/x/sys v0.41.0 // indirect
+	golang.org/x/text v0.34.0 // indirect
+	golang.org/x/tools v0.41.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260128011058-8636f8732409 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260128011058-8636f8732409 // indirect
 	google.golang.org/grpc v1.78.0 // indirect
