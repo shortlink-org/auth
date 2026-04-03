@@ -1,9 +1,9 @@
 dependencies:
 - name: kratos
   repository: https://k8s.ory.sh/helm/charts
-  version: 0.60.1
+  version: 0.61.0
 - name: shortlink-template
   repository: oci://ghcr.io/shortlink-org/charts
   version: 0.12.2
-digest: sha256:c640b63166541f9876d3f185fb41e35d0d8c736b3b8bbe6b4da737f2c667594d
-generated: "2026-03-01T07:10:25.546758019Z"
+digest: sha256:83cbdd834a8cff24417e5e17ba0638d39447d0de8e5c98dbdf98e12021d759c0
+generated: "2026-04-03T17:43:48.83696157Z"
