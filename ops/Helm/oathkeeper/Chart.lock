@@ -1,9 +1,9 @@
 dependencies:
 - name: oathkeeper
   repository: https://k8s.ory.sh/helm/charts
-  version: 0.60.1
+  version: 0.61.0
 - name: shortlink-template
   repository: oci://ghcr.io/shortlink-org/charts
   version: 0.12.2
-digest: sha256:f484e9183d10ec7106f13faeba0530b5daa4e52c5cb43095fb1e6bc8649e7485
-generated: "2026-03-01T07:10:32.574863593Z"
+digest: sha256:0fe1665d7589eaed701e013cd51f9dbfa3ce1bb9c72812b37fcde3a09368c9fa
+generated: "2026-04-03T17:44:07.68952512Z"
