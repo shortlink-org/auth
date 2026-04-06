@@ -1,7 +1,7 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import { useCallback, useSyncExternalStore, type MouseEvent } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 // @ts-ignore
 import { ToggleDarkMode } from '@shortlink-org/ui-kit'
 
@@ -20,19 +20,10 @@ export function ThemeToggle() {
     setTheme(newTheme)
   }, [isDark, setTheme])
 
-  const handleWrapperClick = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      e.stopPropagation()
-      handleToggle()
-    },
-    [handleToggle],
-  )
-
   if (!mounted) {
     return null
   }
 
-  // Use stable ID
   const toggleId = 'ThemeToggle'
 
   return (
@@ -43,10 +34,12 @@ export function ThemeToggle() {
         right: '8rem',
         zIndex: 9999,
       }}
-      onClick={handleWrapperClick}
     >
+      {/*
+        Do not put onClick on this wrapper: label → input onChange already calls handleToggle via
+        ToggleDarkMode; bubbling would run handleToggle twice and cancel the theme change.
+      */}
       <ToggleDarkMode
-        key={`${toggleId}-${resolvedTheme}`}
         id={toggleId}
         checked={isDark}
         onClick={handleToggle}

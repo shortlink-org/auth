@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* next-themes sets class "dark" on <html>; align Tailwind dark: utilities with it (not only prefers-color-scheme). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* Light mode colors */
   --background: #ffffff;
@@ -16,24 +19,7 @@
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark mode colors */
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #818cf8;
-    --primary-dark: #6366f1;
-    --primary-light: #a5b4fc;
-    --gradient-start: #6366f1;
-    --gradient-end: #8b5cf6;
-    --card-bg: #1f2937;
-    --border-color: #374151;
-    --input-bg: #111827;
-    --input-border: #4b5563;
-    --shadow-color: rgba(0, 0, 0, 0.5);
-  }
-}
-
+/* Dark tokens only when next-themes adds .dark to <html>. Do not use prefers-color-scheme on :root — it overrides a user-chosen light theme while the OS stays dark. */
 .dark {
   --background: #0a0a0a;
   --foreground: #ededed;
@@ -87,6 +73,25 @@ body {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/*
+ * ToggleDarkMode (@shortlink-org/ui-kit): the real <input type="checkbox" role="switch"> must stay for a11y.
+ * Kit CSS uses left:-99em inside @scope; Tailwind Preflight / layer order can leave the native box visible.
+ */
+[data-component='toggle-dark-mode'] > input[type='checkbox'][role='switch'] {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
 }
 
 /* Custom scrollbar */

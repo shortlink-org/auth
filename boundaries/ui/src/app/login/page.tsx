@@ -124,7 +124,7 @@ const SignIn: NextPage = () => {
           <div className="flex flex-col sm:flex-row items-stretch overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-2xl">
             {/* Top/Left side - Image panel */}
             <div
-              className="relative overflow-hidden bg-cover bg-center w-full sm:w-5/12 min-h-[200px] sm:min-h-full"
+              className="relative bg-cover bg-center w-full sm:w-5/12 min-h-[200px] sm:min-h-full sm:[clip-path:polygon(0_0,calc(100%-4rem)_0,100%_100%,0_100%)]"
               style={{
                 backgroundImage:
                   "url('https://images.unsplash.com/photo-1477346611705-65d1883cee1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80')",
@@ -140,16 +140,6 @@ const SignIn: NextPage = () => {
                   <p className="text-sm sm:text-base text-gray-400 drop-shadow">Welcome back!</p>
                 </div>
               </div>
-              
-              {/* Decorative SVG - only on desktop */}
-              <svg
-                className="hidden sm:block absolute right-0 inset-y-0 h-full w-16 fill-current text-white z-10"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="none"
-              >
-                <polygon points="0,0 100,100 100,0" />
-              </svg>
             </div>
 
             {/* Bottom/Right side - Form */}

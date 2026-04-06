@@ -36,9 +36,6 @@ const nextConfig: NextConfig = {
   
     // Forward browser logs to the terminal for easier debugging
     browserDebugInfoInTerminal: true,
-  
-    // Enable support for `global-not-found`
-    globalNotFound: true,
   },
   
   // If you truly need a CDN path for static assets only, set assetPrefix as well,
