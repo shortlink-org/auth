@@ -11,7 +11,7 @@ require (
 	github.com/shortlink-org/go-sdk/context v0.0.0-20260107222628-ad66d85c8a41
 	github.com/shortlink-org/go-sdk/flags v0.0.0-20260107222628-ad66d85c8a41
 	github.com/shortlink-org/go-sdk/flight_trace v0.0.0-20260107222628-ad66d85c8a41
-	github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20260107222628-ad66d85c8a41
+	github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20260412121300-d0c4293f3c97
 	github.com/shortlink-org/go-sdk/logger v0.0.0-20260228185005-29f3e1960429
 	github.com/shortlink-org/go-sdk/observability v0.0.0-20260410230549-a64f68ccd6e5
 	github.com/spf13/viper v1.21.0
