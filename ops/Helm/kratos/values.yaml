@@ -46,6 +46,8 @@ kratos:
 
   secret:
     enabled: true
+    # Ory default: Helm hooks on Secret/kratos — Argo CD often drops them; pods then fail with "secret kratos not found".
+    enableDefaultAnnotations: false
 
   deployment:
     # Number of revisions kept in history
@@ -183,6 +185,11 @@ kratos:
         cookie:
           # This is an example; secret must be this length (32 chars).
           - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
+        # Stabilize Secret manifest without hooks (chart otherwise uses randAlphaNum). Prefer overriding via SOPS in prod.
+        default:
+          - PLEASE-CHANGE-ME-DEFAULT-KRATOS-SECR
+        cipher:
+          - PLEASE-CHANGE-ME-CIPHER-KRATOS-SECR
 
       hashers:
         argon2:
