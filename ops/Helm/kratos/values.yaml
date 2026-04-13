@@ -2,6 +2,12 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# shortlink-template (HTTPRoute) reads .Values.deploy.* at chart root; without deploy, Helm fails on .deploy.type.
+deploy:
+  type: Deployment
+  strategy:
+    type: ""
+
 # Service configuration
 service:
   ports:
