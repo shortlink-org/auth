@@ -189,13 +189,13 @@ kratos:
 
       secrets:
         cookie:
-          # This is an example; secret must be this length (32 chars).
-          - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
+          # Kratos requires len <= 32 per entry (v25). Override via SOPS in prod.
+          - PLEASE-CHANGE-KRATOS-LOCAL---32!
         # Stabilize Secret manifest without hooks (chart otherwise uses randAlphaNum). Prefer overriding via SOPS in prod.
         default:
-          - PLEASE-CHANGE-ME-DEFAULT-KRATOS-SECR
+          - PLEASE-CHANGE-DEFAULT-KRATOS-32!
         cipher:
-          - PLEASE-CHANGE-ME-CIPHER-KRATOS-SECR
+          - PLEASE-CHANGE-CIPHER-KRATOS-32!!
 
       hashers:
         argon2:
