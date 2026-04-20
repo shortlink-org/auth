@@ -10,7 +10,7 @@ require (
 	github.com/shortlink-org/go-sdk/config v0.0.0-20260107222628-ad66d85c8a41
 	github.com/shortlink-org/go-sdk/context v0.0.0-20260107222628-ad66d85c8a41
 	github.com/shortlink-org/go-sdk/flags v0.0.0-20260107222628-ad66d85c8a41
-	github.com/shortlink-org/go-sdk/flight_trace v0.0.0-20260107222628-ad66d85c8a41
+	github.com/shortlink-org/go-sdk/flight_trace v0.0.0-20260419222854-fd069f4d5106
 	github.com/shortlink-org/go-sdk/graceful_shutdown v0.0.0-20260417235820-0f1877a4135b
 	github.com/shortlink-org/go-sdk/logger v0.0.0-20260412205338-faac3395a1da
 	github.com/shortlink-org/go-sdk/observability v0.0.0-20260410230549-a64f68ccd6e5
