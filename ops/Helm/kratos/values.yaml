@@ -72,6 +72,9 @@ kratos:
         value: http://grafana-tempo.grafana:14268/sampling
       - name: TRACING_PROVIDERS_JAEGER_LOCAL_AGENT_ADDRESS
         value: grafana-tempo.grafana:6831
+      # Operator-generated URI has no sslmode; PGSSLMODE avoids TLS against certs whose SANs break Go x509 (Crunchy trailing-dot DNS names).
+      - name: PGSSLMODE
+        value: disable
       - name: DSN
         valueFrom:
           secretKeyRef:
