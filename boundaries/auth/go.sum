@@ -191,6 +191,8 @@ github.com/shortlink-org/go-sdk/config v0.0.0-20260107222628-ad66d85c8a41 h1:PrF
 github.com/shortlink-org/go-sdk/config v0.0.0-20260107222628-ad66d85c8a41/go.mod h1:WY8oEI8clVi+3QoNTC+4jcGQUVJmzNmO3D1fAcobayg=
 github.com/shortlink-org/go-sdk/config v0.0.0-20260419222854-fd069f4d5106 h1:UheCbENEwRYvgxfEGucDjHwBOPoHAj6r9nz5Z2plPCM=
 github.com/shortlink-org/go-sdk/config v0.0.0-20260419222854-fd069f4d5106/go.mod h1:SgqtI/Y3GTHOorKylL0ELCkZCSgrrtPX5zkaX1Y5uqQ=
+github.com/shortlink-org/go-sdk/config v0.0.0-20260429091243-40ae8b9e1433 h1:lX/I5MtDZ252R+oniVL+7AwiQ5Gkipr4dqTZ66X/Xbc=
+github.com/shortlink-org/go-sdk/config v0.0.0-20260429091243-40ae8b9e1433/go.mod h1:mwiY3G/HF0mjCE7Whe3m2pArQd8CjDem9VjypPxcIoo=
 github.com/shortlink-org/go-sdk/context v0.0.0-20260107222628-ad66d85c8a41 h1:VzOOLtHs+cz/Teczuiu52YXoDqr7zR1+eQ43LKrULs8=
 github.com/shortlink-org/go-sdk/context v0.0.0-20260107222628-ad66d85c8a41/go.mod h1:d65krONP2RxuZa6m0iamrcpLoO1hbI8KPpgp35TkO0c=
 github.com/shortlink-org/go-sdk/flags v0.0.0-20260107222628-ad66d85c8a41 h1:CZTe5JCJ61GwLf4IQ/+Bavz2SghafbRoBFU0aAJfaSw=
