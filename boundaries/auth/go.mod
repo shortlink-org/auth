@@ -7,7 +7,7 @@ require (
 	github.com/google/wire v0.7.0
 	github.com/ory/dockertest/v3 v3.12.0
 	github.com/shortlink-org/go-sdk/auth v0.0.0-20260424225420-a63676f29741
-	github.com/shortlink-org/go-sdk/config v0.0.0-20260419222854-fd069f4d5106
+	github.com/shortlink-org/go-sdk/config v0.0.0-20260429091243-40ae8b9e1433
 	github.com/shortlink-org/go-sdk/context v0.0.0-20260107222628-ad66d85c8a41
 	github.com/shortlink-org/go-sdk/flags v0.0.0-20260107222628-ad66d85c8a41
 	github.com/shortlink-org/go-sdk/flight_trace v0.0.0-20260410230549-a64f68ccd6e5
